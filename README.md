@@ -1,2 +1,2 @@
 # iot-samples
-Azure IoT Sample Code
+A repository of samples &amp; components that can be incorporated and used in PoCs of IoT
