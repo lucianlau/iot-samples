@@ -8,6 +8,11 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Azure.IoTHub.Examples.FShar
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Azure.IoTHub.Examples.FSharp.ReadDeviceToCloudMessages", "ReadDeviceToCloudMessages\dotnet\fsharp\Azure.IoTHub.Examples.FSharp.ReadDeviceToCloudMessages.fsproj", "{217A1C20-37AE-4E2D-BE28-4BE7CEE22B3E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{F290CB8A-B0D2-48AC-B075-4BB1A84118D6}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\ExampleFSharpScripts.fsx = scripts\ExampleFSharpScripts.fsx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
