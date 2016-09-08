@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Common.Exceptions;
+using Azure.IoTHub.Examples.CSharp.Core;
 
 
 namespace Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity
@@ -10,11 +11,9 @@ namespace Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity
     {
 
         static RegistryManager registryManager;
-        static string connectionString = "{iot hub connection string}";
 
-        private static async Task AddDeviceAsync()
+        private static async Task<string> AddDeviceAsync(string deviceId)
         {
-            string deviceId = "myFirstDevice";
             Device device;
             try
             {
@@ -24,13 +23,29 @@ namespace Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity
             {
                 device = await registryManager.GetDeviceAsync(deviceId);
             }
-            Console.WriteLine("Generated device key: {0}", device.Authentication.SymmetricKey.PrimaryKey);
+            return device.Authentication.SymmetricKey.PrimaryKey;
         }
 
         static void Main(string[] args)
         {
-            registryManager = RegistryManager.CreateFromConnectionString(connectionString);
-            AddDeviceAsync().Wait();
+            var configFilePath = @"config.yaml";
+            var config = configFilePath.GetIoTConfiguration();
+            var azureIoTHubConfig = config.AzureIoTHubConfig;
+
+            registryManager = RegistryManager.CreateFromConnectionString(azureIoTHubConfig.ConnectionString);
+            var task = AddDeviceAsync(azureIoTHubConfig.DeviceId);
+            task.Wait();
+
+            azureIoTHubConfig.DeviceKey = task.Result;
+
+            if (config.UpdateIoTConfiguration(configFilePath).Item1)
+            {
+                Console.WriteLine($"DeviceId: {azureIoTHubConfig.DeviceId} has DeviceKey: {azureIoTHubConfig.DeviceKey}. Config file: {configFilePath} has been updated accordingly.");
+            } else
+            {
+                Console.WriteLine($"Error writing DeviceKey: {azureIoTHubConfig.DeviceKey} for DeviceId: {azureIoTHubConfig.DeviceId} to config file: {configFilePath} ");
+            }
+
             Console.ReadLine();
         }
     }

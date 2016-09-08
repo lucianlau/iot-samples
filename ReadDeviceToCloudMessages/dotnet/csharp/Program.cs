@@ -4,14 +4,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceBus.Messaging;
+using Azure.IoTHub.Examples.CSharp.Core;
 
 
 namespace ReadDeviceToCloudMessages
 {
     class Program
     {
-        static string connectionString = "{iothub connection string}";
-        static string iotHubD2cEndpoint = "messages/events";
         static EventHubClient eventHubClient;
 
         private static async Task ReceiveMessagesFromDeviceAsync(string partition, CancellationToken ct)
@@ -30,8 +29,12 @@ namespace ReadDeviceToCloudMessages
 
         static void Main(string[] args)
         {
+            var config = @"config.yaml".GetIoTConfiguration();
+
             Console.WriteLine("Receive messages. Ctrl-C to exit.\n");
-            eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
+            eventHubClient = EventHubClient.CreateFromConnectionString(
+                config.AzureIoTHubConfig.ConnectionString, 
+                config.AzureIoTHubConfig.IotHubD2cEndpoint);
 
             var d2cPartitions = eventHubClient.GetRuntimeInformation().PartitionIds;
 

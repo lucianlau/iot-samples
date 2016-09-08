@@ -4,15 +4,15 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 
+using Azure.IoTHub.Examples.CSharp.Core;
+
 namespace DeviceSimulator
 {
     class Program
     {
         static DeviceClient deviceClient;
-        static string iotHubUri = "{iot hub hostname}";
-        static string deviceKey = "{device key}";
 
-        private static async void SendDeviceToCloudMessagesAsync()
+        private static async void SendDeviceToCloudMessagesAsync(string deviceId)
         {
             double avgWindSpeed = 10; // m/s
             Random rand = new Random();
@@ -23,7 +23,7 @@ namespace DeviceSimulator
 
                 var telemetryDataPoint = new
                 {
-                    deviceId = "myFirstDevice",
+                    deviceId = deviceId,
                     windSpeed = currentWindSpeed
                 };
                 var messageString = JsonConvert.SerializeObject(telemetryDataPoint);
@@ -38,10 +38,12 @@ namespace DeviceSimulator
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Simulated device\n");
-            deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey("myFirstDevice", deviceKey));
+            var config = @"config.yaml".GetIoTConfiguration().AzureIoTHubConfig;
 
-            SendDeviceToCloudMessagesAsync();
+            Console.WriteLine("Simulated device\n");
+            deviceClient = DeviceClient.Create(config.IoTHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(config.DeviceId, config.DeviceKey));
+
+            SendDeviceToCloudMessagesAsync(config.DeviceId);
             Console.ReadLine();
         }
     }
