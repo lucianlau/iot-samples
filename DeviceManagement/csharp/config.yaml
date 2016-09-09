@@ -1,6 +1,6 @@
 AzureIoTHubConfig:
-    DeviceKey: Z7/2eRBESUsq8drrnDz8K1vu6k+EAveb6mwd93VJY0w=
-    IoTHubUri: iot-demo-hub.azure-devices.net
+    DeviceKey: 54e/XSmVRPL1HhkzTfgXWBkYziBc+NB9vNyjGt0emgw=
+    IoTHubUri: iot-product-demos.azure-devices.net
     DeviceId: DeviceId
     IotHubD2cEndpoint: messages/events
-    ConnectionString: HostName=iot-demo-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=J+lk1nESEBWqwJXZgqu/ZsqPT4d1VvLUoEwvLdVMGIk=
+    ConnectionString: HostName=iot-product-demos.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=zNXayg/LzzcktbIMvNupCOx7KxTdK6tYdwJBno9pLEs=

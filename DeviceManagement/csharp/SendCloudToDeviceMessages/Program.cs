@@ -1,49 +1,79 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices;
+using Azure.IoTHub.Examples.CSharp.Core;
 
 namespace SendCloudToDeviceMessages
 {
     class Program
     {
         static ServiceClient serviceClient;
-        static string connectionString = "{iot hub connection string}";
-        private async static Task SendCloudToDeviceMessageAsync()
+
+        private async static Task SendCloudToDeviceMessageAsync(string deviceId, string message)
         {
-            var commandMessage = new Message(Encoding.ASCII.GetBytes("Cloud to device message."));
-            await serviceClient.SendAsync("myFirstDevice", commandMessage);
+            var commandMessage = new Message(Encoding.ASCII.GetBytes(message));
+            commandMessage.Ack = DeliveryAcknowledgement.Full;
+            await serviceClient.SendAsync(deviceId, commandMessage);
         }
 
-        private async static void ReceiveFeedbackAsync()
+        private async static void ReceiveFeedbackAsync(CancellationToken token)
         {
             var feedbackReceiver = serviceClient.GetFeedbackReceiver();
 
-            Console.WriteLine("\nReceiving c2d feedback from service");
+            Console.WriteLine("\nReceiving c2d ACK from service");
             while (true)
             {
-                var feedbackBatch = await feedbackReceiver.ReceiveAsync();
-                if (feedbackBatch == null) continue;
+                if (token.IsCancellationRequested)
+                {
+                    Console.WriteLine("Listenter Cancelled, Exiting.");
+                }
+                var feedbackBatchTask = feedbackReceiver.ReceiveAsync();
+                feedbackBatchTask.Wait(token);
+
+                var result = feedbackBatchTask.Result;
+                if (result == null) continue;
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Received feedback: {0}", string.Join(", ", feedbackBatch.Records.Select(f => f.StatusCode)));
+                Console.WriteLine("Received ACK: {0}", string.Join(", ", result.Records.Select(f => f.StatusCode)));
                 Console.ResetColor();
 
-                await feedbackReceiver.CompleteAsync(feedbackBatch);
+                await feedbackReceiver.CompleteAsync(result);
             }
         }
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Send Cloud-to-Device message\n");
-            serviceClient = ServiceClient.CreateFromConnectionString(connectionString);
+            var config = @"config.yaml".GetIoTConfiguration();
 
-            Console.WriteLine("Press any key to send a C2D message.");
-            Console.ReadLine();
-            SendCloudToDeviceMessageAsync().Wait();
-            Console.ReadLine();
+            var cts = new CancellationTokenSource();
+
+            Console.CancelKeyPress += (s, e) =>
+            {
+                e.Cancel = true;
+                cts.Cancel();
+                Console.WriteLine("Exiting...");
+            };
+
+            Console.WriteLine("Send Cloud-to-Device message\n");
+            serviceClient = ServiceClient.CreateFromConnectionString(config.AzureIoTHubConfig.ConnectionString);
+
+
+            Task.Run(() => ReceiveFeedbackAsync(cts.Token));
+
+            while (true)
+            {
+                if (cts.Token.IsCancellationRequested)
+                {
+                    Console.WriteLine("Listenter Cancelled, Exiting.");
+                }
+
+                Console.WriteLine("Type a message and press <ENTER> to send a C2D message.");
+                var message = Console.ReadLine();
+                SendCloudToDeviceMessageAsync(config.AzureIoTHubConfig.DeviceId, message).Wait();
+            }
         }
     }
 }
