@@ -13,4 +13,4 @@ in the containing folder.
 * [Python](/DeviceManagement/python/README.md) 
 
 ## License
-This project is licensed under the [MIT License](LICENSE.txt)
+This project is licensed under the [MIT License](/LICENSE.txt)
