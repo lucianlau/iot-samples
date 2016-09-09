@@ -6,11 +6,11 @@ directory root, while more complicated simulations will have thier own solution 
 in the containing folder.
 
 # Supported Languages
-* [C#](/DeviceManagent/csharp/README.md)
-* [F#](/DeviceManagent/fsharp/README.md)
-* [Java](/DeviceManagent/java/README.md)
-* [Nodejs](/DeviceManagent/nodejs/README.md)
-* [Python](/DeviceManagent/python/README.md) 
+* [C#](/DeviceManagement/csharp/README.md)
+* [F#](/DeviceManagement/fsharp/README.md)
+* [Java](/DeviceManagement/java/README.md)
+* [Nodejs](/DeviceManagement/nodejs/README.md)
+* [Python](/DeviceManagement/python/README.md) 
 
 ## License
 This project is licensed under the [MIT License](LICENSE.txt)
