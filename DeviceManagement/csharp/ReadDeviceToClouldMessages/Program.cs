@@ -40,6 +40,7 @@ namespace ReadDeviceToCloudMessages
 
             CancellationTokenSource cts = new CancellationTokenSource();
 
+            // register cancellation request event.
             Console.CancelKeyPress += (s, e) =>
             {
                 e.Cancel = true;
