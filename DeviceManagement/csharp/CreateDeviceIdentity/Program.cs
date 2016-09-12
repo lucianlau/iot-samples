@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Common.Exceptions;
@@ -28,22 +29,23 @@ namespace Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity
 
         static void Main(string[] args)
         {
-            var configFilePath = @"config.yaml";
+            var configFilePath = @"../../../config.yaml";
             var config = configFilePath.GetIoTConfiguration();
-            var azureIoTHubConfig = config.AzureIoTHubConfig;
+            var testDevice = config.DeviceConfigs.First();
+            var azureConfig = config.AzureIoTHubConfig;
 
-            registryManager = RegistryManager.CreateFromConnectionString(azureIoTHubConfig.ConnectionString);
-            var task = AddDeviceAsync(azureIoTHubConfig.DeviceId);
+            registryManager = RegistryManager.CreateFromConnectionString(azureConfig.ConnectionString);
+            var task = AddDeviceAsync(testDevice.DeviceId);
             task.Wait();
 
-            azureIoTHubConfig.DeviceKey = task.Result;
+            testDevice.DeviceKey = task.Result;
 
-            if (config.UpdateIoTConfiguration(configFilePath).Item1)
+            if (configFilePath.UpdateIoTConfiguration(config).Item1)
             {
-                Console.WriteLine($"DeviceId: {azureIoTHubConfig.DeviceId} has DeviceKey: {azureIoTHubConfig.DeviceKey}. Config file: {configFilePath} has been updated accordingly.");
+                Console.WriteLine($"DeviceId: {testDevice.DeviceId} has DeviceKey: {testDevice.DeviceKey}. Config file: {configFilePath} has been updated accordingly.");
             } else
             {
-                Console.WriteLine($"Error writing DeviceKey: {azureIoTHubConfig.DeviceKey} for DeviceId: {azureIoTHubConfig.DeviceId} to config file: {configFilePath} ");
+                Console.WriteLine($"Error writing DeviceKey: {testDevice.DeviceKey} for DeviceId: {testDevice.DeviceId} to config file: {configFilePath} ");
             }
 
             Console.ReadLine();

@@ -29,7 +29,7 @@ namespace ReadDeviceToCloudMessages
 
         static void Main(string[] args)
         {
-            var config = @"config.yaml".GetIoTConfiguration();
+            var config = @"../../../config.yaml".GetIoTConfiguration();
 
             Console.WriteLine("Receive messages. Ctrl-C to exit.\n");
             eventHubClient = EventHubClient.CreateFromConnectionString(

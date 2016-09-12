@@ -46,7 +46,7 @@ namespace SendCloudToDeviceMessages
 
         static void Main(string[] args)
         {
-            var config = @"config.yaml".GetIoTConfiguration();
+            var config = @"../../../config.yaml".GetIoTConfiguration();
 
             var cts = new CancellationTokenSource();
 
@@ -72,7 +72,7 @@ namespace SendCloudToDeviceMessages
 
                 Console.WriteLine("Type a message and press <ENTER> to send a C2D message.");
                 var message = Console.ReadLine();
-                SendCloudToDeviceMessageAsync(config.AzureIoTHubConfig.DeviceId, message).Wait();
+                SendCloudToDeviceMessageAsync(config.DeviceConfigs.First().DeviceId, message).Wait();
             }
         }
     }

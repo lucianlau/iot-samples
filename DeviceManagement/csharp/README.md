@@ -7,7 +7,7 @@ Azure IoT is through the primary [Visual Studio solution](/DeviceManagement/csha
 
 Each project in the main solution includes a linked YAML configuration file `config.yaml`. The 
 [config.yaml](/DeviceManagement/csharp/config.yaml) is serialized and deserialized from an object 
-model that is included in the `Azure.IoTHub.Examples.CSharp.Core` project and may be read and
+model that is included in the [`Azure.IoTHub.Examples.CSharp.Core`](/DeviceManagement/csharp/Core/README.md) project and may be read and
 written to from any number of projects.  After [setting up a resource group](https://azure.microsoft.com/en-us/documentation/articles/resource-group-portal/) 
 for your demo, [create an IoT Hub](https://azure.microsoft.com/en-us/documentation/articles/iot-hub-csharp-csharp-getstarted/#create-an-iot-hub) 
 and paste the primary connection string, noted in step #6, into the `config.yaml` file.  Lastly, 

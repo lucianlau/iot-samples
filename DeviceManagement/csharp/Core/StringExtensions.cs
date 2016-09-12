@@ -16,7 +16,7 @@ namespace Azure.IoTHub.Examples.CSharp.Core
             }
         }
 
-        public static Tuple<bool, Exception> UpdateIoTConfiguration(this Configuration config, string configFilePath)
+        public static Tuple<bool, Exception> UpdateIoTConfiguration(this string configFilePath, Configuration config)
         {
             try
             {

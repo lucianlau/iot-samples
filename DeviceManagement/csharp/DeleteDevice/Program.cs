@@ -46,13 +46,14 @@ namespace Azure.IotHub.Examples.Csharp.DeleteDevice
 
         static void Main(string[] args)
         {
-            var config = @"config.yaml".GetIoTConfiguration();
-            var azureIoTHubConfig = config.AzureIoTHubConfig;
+            var config = @"../../../config.yaml".GetIoTConfiguration();
+            var testDevice = config.DeviceConfigs.First();
+            var azureConfig = config.AzureIoTHubConfig;
 
-            registryManager = RegistryManager.CreateFromConnectionString(azureIoTHubConfig.ConnectionString);
+            registryManager = RegistryManager.CreateFromConnectionString(azureConfig.ConnectionString);
 
             // check that the device is configured, add if not
-            var t1 = AddDeviceAsync(azureIoTHubConfig.DeviceId);
+            var t1 = AddDeviceAsync(testDevice.DeviceId);
             t1.Wait();
             var device = t1.Result;
 
@@ -60,16 +61,16 @@ namespace Azure.IotHub.Examples.Csharp.DeleteDevice
             GetDevices().Wait();
 
             // Remove a device.
-            Console.WriteLine($"Removing (Id:PrimaryKey): {azureIoTHubConfig.DeviceId}:{azureIoTHubConfig.DeviceKey}.");
+            Console.WriteLine($"Removing (Id:PrimaryKey): {testDevice.DeviceId}:{testDevice.DeviceKey}.");
             RemoveDevice(device).Wait();
-            Console.WriteLine($"Removed (Id:PrimaryKey): {azureIoTHubConfig.DeviceId}:{azureIoTHubConfig.DeviceKey}.");
+            Console.WriteLine($"Removed (Id:PrimaryKey): {testDevice.DeviceId}:{testDevice.DeviceKey}.");
 
             // show device removed.
             GetDevices().Wait();
 
             // add device back to not interrupt 
             Console.WriteLine("Adding device back into registry.");
-            t1 = AddDeviceAsync(azureIoTHubConfig.DeviceId);
+            t1 = AddDeviceAsync(testDevice.DeviceId);
             t1.Wait();
 
             Console.ReadLine();

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
@@ -54,12 +56,14 @@ namespace DeviceSimulator
 
         static void Main(string[] args)
         {
-            var config = @"config.yaml".GetIoTConfiguration().AzureIoTHubConfig;
+            var config = @"../../../config.yaml".GetIoTConfiguration();
+            var testDevice = config.DeviceConfigs.First();
+            var azureConfig = config.AzureIoTHubConfig;
 
             Console.WriteLine("Simulated device\n");
-            deviceClient = DeviceClient.Create(config.IoTHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(config.DeviceId, config.DeviceKey));
+            deviceClient = DeviceClient.Create(azureConfig.IoTHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(testDevice.DeviceId, testDevice.DeviceKey));
 
-            SendDeviceToCloudMessagesAsync(config.DeviceId);
+            SendDeviceToCloudMessagesAsync(testDevice.DeviceId);
             ReceiveC2dAsync();
             Console.ReadLine();
         }

@@ -55,7 +55,6 @@
   <ItemGroup>
     <None Include="..\config.yaml">
       <Link>config.yaml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="App.config" />
     <None Include="packages.config" />
