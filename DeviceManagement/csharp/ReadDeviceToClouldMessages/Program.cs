@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,36 +10,45 @@ using Azure.IoTHub.Examples.CSharp.Core;
 
 namespace ReadDeviceToCloudMessages
 {
-    class Program
+    /// <summary>
+    /// Sample program to process device messages sent to Azure IoT Hub.
+    /// </summary>
+    public class Program
     {
-        static EventHubClient eventHubClient;
+        private static EventHubClient _eventHubClient;
 
+        /// <summary>
+        /// Receives the messages from device (async).
+        /// </summary>
+        /// <param name="partition">The partition.</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns></returns>
         private static async Task ReceiveMessagesFromDeviceAsync(string partition, CancellationToken ct)
         {
-            var eventHubReceiver = eventHubClient.GetDefaultConsumerGroup().CreateReceiver(partition, DateTime.UtcNow);
+            var eventHubReceiver = _eventHubClient.GetDefaultConsumerGroup().CreateReceiver(partition, DateTime.UtcNow);
             while (true)
             {
                 if (ct.IsCancellationRequested) break;
-                EventData eventData = await eventHubReceiver.ReceiveAsync();
+                var eventData = await eventHubReceiver.ReceiveAsync();
                 if (eventData == null) continue;
 
-                string data = Encoding.UTF8.GetString(eventData.GetBytes());
+                var data = Encoding.UTF8.GetString(eventData.GetBytes());
                 Console.WriteLine("Message received. Partition: {0} Data: '{1}'", partition, data);
             }
         }
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var config = @"../../../config.yaml".GetIoTConfiguration();
+            var config = @"../../../config/config.yaml".GetIoTConfiguration();
 
             Console.WriteLine("Receive messages. Ctrl-C to exit.\n");
-            eventHubClient = EventHubClient.CreateFromConnectionString(
+            _eventHubClient = EventHubClient.CreateFromConnectionString(
                 config.AzureIoTHubConfig.ConnectionString, 
                 config.AzureIoTHubConfig.IotHubD2cEndpoint);
 
-            var d2cPartitions = eventHubClient.GetRuntimeInformation().PartitionIds;
+            var d2CPartitions = _eventHubClient.GetRuntimeInformation().PartitionIds;
 
-            CancellationTokenSource cts = new CancellationTokenSource();
+            var cts = new CancellationTokenSource();
 
             // register cancellation request event.
             Console.CancelKeyPress += (s, e) =>
@@ -48,12 +58,7 @@ namespace ReadDeviceToCloudMessages
                 Console.WriteLine("Exiting...");
             };
 
-            var tasks = new List<Task>();
-            foreach (string partition in d2cPartitions)
-            {
-                tasks.Add(ReceiveMessagesFromDeviceAsync(partition, cts.Token));
-            }
-            Task.WaitAll(tasks.ToArray());
+            Task.WaitAll(d2CPartitions.Select(partition => ReceiveMessagesFromDeviceAsync(partition, cts.Token)).ToArray());
         }
     }
 }

@@ -1,12 +1,16 @@
 ﻿using System;
 using System.IO;
 using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace Azure.IoTHub.Examples.CSharp.Core
 {
     public static class StringExtensions
     {
+        /// <summary>
+        /// Gets the IoT configuration.
+        /// </summary>
+        /// <param name="configFilePath">The configuration file path.</param>
+        /// <returns></returns>
         public static Configuration GetIoTConfiguration(this string configFilePath)
         {
             var deserializer = new Deserializer();
@@ -16,6 +20,12 @@ namespace Azure.IoTHub.Examples.CSharp.Core
             }
         }
 
+        /// <summary>
+        /// Updates the IoT configuration.
+        /// </summary>
+        /// <param name="configFilePath">The configuration file path.</param>
+        /// <param name="config">The configuration.</param>
+        /// <returns></returns>
         public static Tuple<bool, Exception> UpdateIoTConfiguration(this string configFilePath, Configuration config)
         {
             try

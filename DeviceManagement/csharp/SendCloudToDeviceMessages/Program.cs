@@ -5,35 +5,47 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices;
 using Azure.IoTHub.Examples.CSharp.Core;
+using Microsoft.Azure.Devices.Common;
 
 namespace SendCloudToDeviceMessages
 {
-    class Program
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Program
     {
-        static ServiceClient serviceClient;
+        private static ServiceClient _serviceClient;
 
-        private async static Task SendCloudToDeviceMessageAsync(string deviceId, string message)
+        /// <summary>
+        /// Sends a cloud to device message (async).
+        /// </summary>
+        /// <param name="deviceId">The device identifier.</param>
+        /// <param name="message">The message.</param>
+        /// <returns></returns>
+        private static async Task SendCloudToDeviceMessageAsync(string deviceId, string message)
         {
-            var commandMessage = new Message(Encoding.ASCII.GetBytes(message));
-            commandMessage.Ack = DeliveryAcknowledgement.Full;
-            await serviceClient.SendAsync(deviceId, commandMessage);
+            var commandMessage = new Message(Encoding.ASCII.GetBytes(message)) {Ack = DeliveryAcknowledgement.Full};
+            await _serviceClient.SendAsync(deviceId, commandMessage);
         }
 
-        private async static void ReceiveFeedbackAsync(CancellationToken token)
+        /// <summary>
+        /// Receives the message ACK from the device (async).
+        /// </summary>
+        /// <param name="token">The token.</param>
+        private static async void ReceiveFeedbackAsync(CancellationToken token)
         {
-            var feedbackReceiver = serviceClient.GetFeedbackReceiver();
+            var feedbackReceiver = _serviceClient.GetFeedbackReceiver();
 
-            Console.WriteLine("\nReceiving c2d ACK from service");
+            Console.WriteLine("\nWaiting for c2d ACK from service");
             while (true)
             {
                 if (token.IsCancellationRequested)
                 {
-                    Console.WriteLine("Listenter Cancelled, Exiting.");
+                    Console.WriteLine("Listenter Cancelled, Exiting ...");
+                    break;
                 }
-                var feedbackBatchTask = feedbackReceiver.ReceiveAsync();
-                feedbackBatchTask.Wait(token);
 
-                var result = feedbackBatchTask.Result;
+                var result = await feedbackReceiver.ReceiveAsync();
                 if (result == null) continue;
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -46,7 +58,7 @@ namespace SendCloudToDeviceMessages
 
         static void Main(string[] args)
         {
-            var config = @"../../../config.yaml".GetIoTConfiguration();
+            var config = @"../../../config/config.yaml".GetIoTConfiguration();
 
             var cts = new CancellationTokenSource();
 
@@ -58,21 +70,25 @@ namespace SendCloudToDeviceMessages
             };
 
             Console.WriteLine("Send Cloud-to-Device message\n");
-            serviceClient = ServiceClient.CreateFromConnectionString(config.AzureIoTHubConfig.ConnectionString);
+            _serviceClient = ServiceClient.CreateFromConnectionString(config.AzureIoTHubConfig.ConnectionString);
 
 
-            Task.Run(() => ReceiveFeedbackAsync(cts.Token));
+            ReceiveFeedbackAsync(cts.Token);
 
             while (true)
             {
                 if (cts.Token.IsCancellationRequested)
                 {
-                    Console.WriteLine("Listenter Cancelled, Exiting.");
+                    Console.WriteLine("Listenter Cancelled, Exiting ...");
+                    break;
                 }
 
                 Console.WriteLine("Type a message and press <ENTER> to send a C2D message.");
+                // niave impl - press ctrl-c twice or close window to exit
                 var message = Console.ReadLine();
-                SendCloudToDeviceMessageAsync(config.DeviceConfigs.First().DeviceId, message).Wait();
+                 
+                if(!message.IsNullOrWhiteSpace())
+                    SendCloudToDeviceMessageAsync(config.DeviceConfigs.First().DeviceId, message).Wait();
             }
         }
     }

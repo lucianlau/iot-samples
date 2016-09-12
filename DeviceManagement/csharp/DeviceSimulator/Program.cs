@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
@@ -10,18 +10,27 @@ using Azure.IoTHub.Examples.CSharp.Core;
 
 namespace DeviceSimulator
 {
-    class Program
+    /// <summary>
+    /// Sample program that simulates an IoT device for use with Azure IoT Hub.
+    /// </summary>
+    public class Program
     {
-        static DeviceClient deviceClient;
-
-        private static async void SendDeviceToCloudMessagesAsync(string deviceId)
+        /// <summary>
+        /// Sends the device to cloud messages (async).
+        /// </summary>
+        /// <param name="deviceClient">The device client.</param>
+        /// <param name="deviceId">The device identifier.</param>
+        /// <param name="ct">The cancellation token</param>
+        private static async void SendDeviceToCloudMessagesAsync(DeviceClient deviceClient, string deviceId, CancellationToken ct)
         {
-            double avgWindSpeed = 10; // m/s
-            Random rand = new Random();
+            const double avgWindSpeed = 10; // m/s
+            var rand = new Random();
 
             while (true)
             {
-                double currentWindSpeed = avgWindSpeed + rand.NextDouble() * 4 - 2;
+                if (ct.IsCancellationRequested) break;
+
+                var currentWindSpeed = avgWindSpeed + rand.NextDouble() * 4 - 2;
 
                 var telemetryDataPoint = new
                 {
@@ -34,16 +43,21 @@ namespace DeviceSimulator
                 await deviceClient.SendEventAsync(message);
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageString);
 
-                Task.Delay(1000).Wait();
+                await Task.Delay(1000);
             }
         }
 
-        private static async void ReceiveC2dAsync()
+        /// <summary>
+        /// Receives the cloud to device message (async).
+        /// </summary>
+        private static async void ReceiveC2DAsync(DeviceClient deviceClient, CancellationToken ct)
         {
             Console.WriteLine("\nReceiving cloud to device messages from service");
             while (true)
             {
-                Message receivedMessage = await deviceClient.ReceiveAsync();
+                if (ct.IsCancellationRequested) break;
+
+                var receivedMessage = await deviceClient.ReceiveAsync();
                 if (receivedMessage == null) continue;
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -54,17 +68,31 @@ namespace DeviceSimulator
             }
         }
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var config = @"../../../config.yaml".GetIoTConfiguration();
+            var config = @"../../../config/config.yaml".GetIoTConfiguration();
             var testDevice = config.DeviceConfigs.First();
             var azureConfig = config.AzureIoTHubConfig;
 
             Console.WriteLine("Simulated device\n");
-            deviceClient = DeviceClient.Create(azureConfig.IoTHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(testDevice.DeviceId, testDevice.DeviceKey));
+            var deviceClient = DeviceClient.Create(azureConfig.IoTHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(testDevice.DeviceId, testDevice.DeviceKey));
 
-            SendDeviceToCloudMessagesAsync(testDevice.DeviceId);
-            ReceiveC2dAsync();
+            var cts = new CancellationTokenSource();
+
+            // register cancellation request event.
+            Console.CancelKeyPress += (s, e) =>
+            {
+                e.Cancel = true;
+                cts.Cancel();
+                Console.WriteLine("Exiting ...");
+            };
+
+            // kick off cloud data send.
+            SendDeviceToCloudMessagesAsync(deviceClient, testDevice.DeviceId, cts.Token);
+
+            // kick off could data receive
+            ReceiveC2DAsync(deviceClient, cts.Token);
+
             Console.ReadLine();
         }
     }

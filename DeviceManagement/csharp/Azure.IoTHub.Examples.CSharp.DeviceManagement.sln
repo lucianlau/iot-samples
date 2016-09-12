@@ -5,7 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{3E5B0689-B9C3-4912-ABC6-CF35340D448B}"
 	ProjectSection(SolutionItems) = preProject
-		config.yaml = config.yaml
+		config\config.defualt.yaml = config\config.defualt.yaml
+		config\config.yaml = config\config.yaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity", "CreateDeviceIdentity\Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity.csproj", "{4B4A4CF3-762B-4BCB-8868-A6B31719B0B4}"

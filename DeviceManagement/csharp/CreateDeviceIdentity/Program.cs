@@ -8,33 +8,35 @@ using Azure.IoTHub.Examples.CSharp.Core;
 
 namespace Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity
 {
-    class Program
+    /// <summary>
+    /// Sample program to create a device identity in Azure IoT Hub.
+    /// </summary>
+    public class Program
     {
-
-        static RegistryManager registryManager;
+        private static RegistryManager _registryManager;
 
         private static async Task<string> AddDeviceAsync(string deviceId)
         {
             Device device;
             try
             {
-                device = await registryManager.AddDeviceAsync(new Device(deviceId));
+                device = await _registryManager.AddDeviceAsync(new Device(deviceId));
             }
             catch (DeviceAlreadyExistsException)
             {
-                device = await registryManager.GetDeviceAsync(deviceId);
+                device = await _registryManager.GetDeviceAsync(deviceId);
             }
             return device.Authentication.SymmetricKey.PrimaryKey;
         }
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var configFilePath = @"../../../config.yaml";
+            const string configFilePath = @"../../../config/config.yaml";
             var config = configFilePath.GetIoTConfiguration();
             var testDevice = config.DeviceConfigs.First();
             var azureConfig = config.AzureIoTHubConfig;
 
-            registryManager = RegistryManager.CreateFromConnectionString(azureConfig.ConnectionString);
+            _registryManager = RegistryManager.CreateFromConnectionString(azureConfig.ConnectionString);
             var task = AddDeviceAsync(testDevice.DeviceId);
             task.Wait();
 

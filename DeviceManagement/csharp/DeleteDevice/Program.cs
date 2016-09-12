@@ -7,50 +7,65 @@ using Azure.IoTHub.Examples.CSharp.Core;
 
 namespace Azure.IotHub.Examples.Csharp.DeleteDevice
 {
-    class Program
+    /// <summary>
+    /// Sample program to delete a device from Azure IoT Hub
+    /// </summary>
+    public class Program
     {
-        static RegistryManager registryManager;
+        private static RegistryManager _registryManager;
 
+        /// <summary>
+        /// Adds the device to the IoT Hub or returns an already configured device.
+        /// </summary>
+        /// <param name="deviceId">The device identifier.</param>
+        /// <returns></returns>
         private static async Task<Device> AddDeviceAsync(string deviceId)
         {
             Device device;
             try
             {
-                
-                device = await registryManager.AddDeviceAsync(new Device(deviceId));
+                device = await _registryManager.AddDeviceAsync(new Device(deviceId));
                 Console.WriteLine($"Registered (Id:PrimaryKey): {device.Id}:{device.Authentication.SymmetricKey.PrimaryKey}.");
             }
             catch (DeviceAlreadyExistsException)
             {
-                device = await registryManager.GetDeviceAsync(deviceId);
+                device = await _registryManager.GetDeviceAsync(deviceId);
                 Console.WriteLine($"Device (Id:PrimaryKey): {device.Id}:{device.Authentication.SymmetricKey.PrimaryKey} already registered.");
             }
             return device;
         }
 
+        /// <summary>
+        /// Gets the list of configred devices in the Azure IoT Hub.
+        /// </summary>
+        /// <returns></returns>
         public static async Task GetDevices()
         {
             Console.WriteLine("Getting Configured Device List ...");
-            var devices = await registryManager.GetDevicesAsync(1000); 
+            var devices = await _registryManager.GetDevicesAsync(1000); 
 
             Console.WriteLine("Configured Device List: (ID:PrimaryKey)");
             devices.ToList().ForEach(x => Console.WriteLine($"\t {x.Id} : {x.Authentication.SymmetricKey.PrimaryKey}"));
         }
 
+        /// <summary>
+        /// Removes the supplied device from the Azure IoT Hub.
+        /// </summary>
+        /// <param name="device">The device.</param>
+        /// <returns></returns>
         public static async Task RemoveDevice(Device device)
         {
-            await registryManager.RemoveDeviceAsync(device);
+            await _registryManager.RemoveDeviceAsync(device);
         }
 
-
-
-        static void Main(string[] args)
+        
+        public static void Main(string[] args)
         {
-            var config = @"../../../config.yaml".GetIoTConfiguration();
+            var config = @"../../../config/config.yaml".GetIoTConfiguration();
             var testDevice = config.DeviceConfigs.First();
             var azureConfig = config.AzureIoTHubConfig;
 
-            registryManager = RegistryManager.CreateFromConnectionString(azureConfig.ConnectionString);
+            _registryManager = RegistryManager.CreateFromConnectionString(azureConfig.ConnectionString);
 
             // check that the device is configured, add if not
             var t1 = AddDeviceAsync(testDevice.DeviceId);
