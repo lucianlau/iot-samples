@@ -7,10 +7,10 @@ in the containing folder.
 
 # Supported Languages
 * [C#](/DeviceManagement/csharp/README.md)
-* [F#](/DeviceManagement/fsharp/README.md)
-* [Java](/DeviceManagement/java/README.md)
-* [Nodejs](/DeviceManagement/nodejs/README.md)
-* [Python](/DeviceManagement/python/README.md) 
+* [F# - WIP](/DeviceManagement/fsharp/README.md)
+* [Java - WIP](/DeviceManagement/java/README.md)
+* [Nodejs - WIP](/DeviceManagement/nodejs/README.md)
+* [Python - WIP](/DeviceManagement/python/README.md) 
 
 ## License
 This project is licensed under the [MIT License](/LICENSE.txt)
