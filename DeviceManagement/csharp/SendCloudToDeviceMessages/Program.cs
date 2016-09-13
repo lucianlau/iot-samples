@@ -112,7 +112,7 @@ namespace SendCloudToDeviceMessages
                 Console.WriteLine("Exiting...");
             };
 
-            Console.WriteLine("Send Cloud-to-Device message\n");
+            Console.WriteLine("Send Cloud-to-Device message");
             var serviceClient = ServiceClient.CreateFromConnectionString(config.AzureIoTHubConfig.ConnectionString);
 
             // monitor for ACKs from cloud to device mesages

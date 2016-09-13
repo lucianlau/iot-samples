@@ -113,7 +113,7 @@ namespace DeviceSimulator
         /// <returns></returns>
         private static async Task ReceiveC2DAsync(DeviceClient deviceClient, string iotStorageContainerName, CancellationToken ct)
         {
-            Console.WriteLine("\nReceiving cloud to device messages from service");
+            Console.WriteLine("Receiving cloud to device messages from service");
             while (true)
             {
                 if (ct.IsCancellationRequested) break;
@@ -162,7 +162,7 @@ namespace DeviceSimulator
             var testDevice = config.DeviceConfigs.First();
             var azureConfig = config.AzureIoTHubConfig;
 
-            Console.WriteLine("Simulated device\n");
+            Console.WriteLine("Simulated device");
             var deviceClient = DeviceClient.Create(
                     azureConfig.IoTHubUri, 
                     new DeviceAuthenticationWithRegistrySymmetricKey(testDevice.DeviceId, testDevice.Key));

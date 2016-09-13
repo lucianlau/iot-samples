@@ -36,7 +36,7 @@ namespace JobDeviceSimulator
             var testDevice = config.DeviceConfigs.First();
             var azureConfig = config.AzureIoTHubConfig;
 
-            Console.WriteLine("Retriving list of current job:\n");
+            Console.WriteLine("Retriving list of current job:");
             var registryManager = RegistryManager.CreateFromConnectionString(azureConfig.ConnectionString);
 
             var cts = new CancellationTokenSource();

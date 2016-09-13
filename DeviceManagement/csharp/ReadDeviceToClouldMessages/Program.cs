@@ -40,7 +40,7 @@ namespace ReadDeviceToCloudMessages
         {
             var config = @"../../../config/config.yaml".GetIoTConfiguration();
 
-            Console.WriteLine("Receive messages. Ctrl-C to exit.\n");
+            Console.WriteLine("Receive messages. Ctrl-C to exit.");
             _eventHubClient = EventHubClient.CreateFromConnectionString(
                 config.AzureIoTHubConfig.ConnectionString, 
                 config.AzureIoTHubConfig.IotHubD2CEndpoint);
