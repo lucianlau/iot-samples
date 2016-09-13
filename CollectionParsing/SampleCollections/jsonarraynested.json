@@ -1,0 +1,14 @@
+{"rootarray":
+	[
+		{"array":
+		[
+		{"element1":"a1 elementvalue"},
+		{"element2":"a1 element value 2"},
+		{"element3":"a1 element value 3"}
+	]},
+	{"array":[
+	    {"element1":"a2 elementvalue"},
+		{"element2":"a2 element value 2"},
+		{"element3":"a2 element value 3"}
+	]}]
+}
