@@ -20,6 +20,7 @@ project.
 * [Push Data to Azure IoT Hub](#push-data-to-azure-iot-hub)
 * [Read Data Pushed to Azure IoT Hub](#read-data-pushed-to-azure-iot-hub)
 * [Send Notification from Azure Iot Hub to Device](#send-notification-from-azure-iot-hub-to-device)
+* [Send Command to Device to Upload File](#send-command-to-device-to-upload-file)
 
 ### Create a Device Identity
 This example utilizes the connection string and device id of the `config.yaml` file to configure 
@@ -68,6 +69,26 @@ flowing to the Azure Iot Hub from the device simulator, and a prompt to send con
 from the `SendCloudToDeviceMessages` console.
 
 *Suggestion*: play with sending multiple messages quickly and see how messages are pulled from the hub byt the controler.
+
+### Send Command to Device to Upload File
+In this example we will use two projects, the `DeviceSimulator` and the `SendCloudToDeviceMessages` to explore
+uploading of bulk observation data from our simulated device.  Th simulation might represent the transfer of data collected
+during a network outage or perhaps aggregate statistics collected by the device.  To run this simulation you will need to make sure that: 
+* the device configured in the `config.yaml` file, has been added to the Azure IoT Hub using the [Create a Device Identity](#create-a-device-identity) 
+project
+* A [configured storage account](https://azure.microsoft.com/en-us/documentation/articles/iot-hub-manage-through-portal/#file-upload)
+has been attached to your Azure IoT Hub for use with your Azure IoT Hub and, create or select a default storage container.
+* Turn ON *'Receive Notification for uploaded files'* under the Azure IoT Hub blade.
+* The IoT Hub Storage Conatiner name has been added to the `config.yaml`
+* the solution has been rebuilt, if the `config.yaml` was updated. 
+
+With the simulator device registered and blob storage attached to the hub, set both the `DeviceSimulator` 
+and the `SendCloudToDeviceMessages` projects as Startup Projects, [instructions here](https://msdn.microsoft.com/en-us/library/ms165413.aspx).
+Running the debugger will start both projects and you should see two console windows displaying data
+flowing to the Azure Iot Hub from the device simulator, and a prompt to send control messages to the device 
+from the `SendCloudToDeviceMessages` console.  In the `SendCloudToDeviceMessages` terminal type the phrase
+`upload bulk data` and press `<ENTER>` to request that the device upload a file to blob storage.  Once the file
+has uploaded the `SendCloudToDeviceMessages` will display a receipt notification.
 
 ## License
 This project is licensed under the [MIT License](/LICENSE.txt)
