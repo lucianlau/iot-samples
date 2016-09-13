@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -29,13 +28,11 @@ namespace ReadDeviceToCloudMessages
             while (true)
             {
                 if (ct.IsCancellationRequested) break;
-                var eventData = await eventHubReceiver.ReceiveAsync();
+                var eventData = await eventHubReceiver.ReceiveAsync(TimeSpan.FromSeconds(1));
                 if (eventData == null) continue;
 
                 var data = Encoding.UTF8.GetString(eventData.GetBytes());
                 Console.WriteLine("Message received. Partition: {0} Data: '{1}'", partition, data);
-
-                // 
             }
         }
 

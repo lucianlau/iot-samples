@@ -21,7 +21,7 @@ namespace DeviceSimulator
         /// <param name="deviceClient">The device client.</param>
         /// <param name="deviceId">The device identifier.</param>
         /// <param name="ct">The cancellation token</param>
-        private static async void SendDeviceToCloudMessagesAsync(DeviceClient deviceClient, string deviceId, CancellationToken ct)
+        private static async Task SendDeviceToCloudMessagesAsync(DeviceClient deviceClient, string deviceId, CancellationToken ct)
         {
             const double avgWindSpeed = 10; // m/s
             var rand = new Random();
@@ -50,7 +50,7 @@ namespace DeviceSimulator
         /// <summary>
         /// Receives the cloud to device message (async).
         /// </summary>
-        private static async void ReceiveC2DAsync(DeviceClient deviceClient, CancellationToken ct)
+        private static async Task ReceiveC2DAsync(DeviceClient deviceClient, CancellationToken ct)
         {
             Console.WriteLine("\nReceiving cloud to device messages from service");
             while (true)
@@ -91,10 +91,12 @@ namespace DeviceSimulator
             };
 
             // kick off cloud data send.
-            SendDeviceToCloudMessagesAsync(deviceClient, testDevice.DeviceId, cts.Token);
+            var sendTask = SendDeviceToCloudMessagesAsync(deviceClient, testDevice.DeviceId, cts.Token);
 
             // kick off could data receive
-            ReceiveC2DAsync(deviceClient, cts.Token);
+            var receiveTask = ReceiveC2DAsync(deviceClient, cts.Token);
+
+            Task.WaitAny(sendTask, receiveTask);
 
             Console.ReadLine();
         }

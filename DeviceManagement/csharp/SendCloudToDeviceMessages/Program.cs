@@ -32,7 +32,7 @@ namespace SendCloudToDeviceMessages
         /// Receives the message ACK from the device (async).
         /// </summary>
         /// <param name="token">The token.</param>
-        private static async void ReceiveFeedbackAsync(CancellationToken token)
+        private static async Task ReceiveFeedbackAsync(CancellationToken token)
         {
             var feedbackReceiver = _serviceClient.GetFeedbackReceiver();
 
@@ -45,7 +45,7 @@ namespace SendCloudToDeviceMessages
                     break;
                 }
 
-                var result = await feedbackReceiver.ReceiveAsync();
+                var result = await feedbackReceiver.ReceiveAsync(TimeSpan.FromSeconds(1));
                 if (result == null) continue;
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -53,6 +53,25 @@ namespace SendCloudToDeviceMessages
                 Console.ResetColor();
 
                 await feedbackReceiver.CompleteAsync(result);
+            }
+        }
+
+        private static async Task MessageSendTaskAsync(string deviceId, CancellationToken token)
+        {
+            while (true)
+            {
+                if (token.IsCancellationRequested)
+                {
+                    Console.WriteLine("Listenter Cancelled, Exiting ...");
+                    break;
+                }
+
+                Console.WriteLine("Type a message and press <ENTER> to send a C2D message.");
+                // niave impl - press ctrl-c twice or close window to exit
+                var message = Console.ReadLine();
+
+                if (!message.IsNullOrWhiteSpace())
+                    await SendCloudToDeviceMessageAsync(deviceId, message);
             }
         }
 
@@ -73,23 +92,11 @@ namespace SendCloudToDeviceMessages
             _serviceClient = ServiceClient.CreateFromConnectionString(config.AzureIoTHubConfig.ConnectionString);
 
 
-            ReceiveFeedbackAsync(cts.Token);
+            var ackTask = ReceiveFeedbackAsync(cts.Token);
+            var sendTask = MessageSendTaskAsync(config.DeviceConfigs.First().DeviceId, cts.Token);
 
-            while (true)
-            {
-                if (cts.Token.IsCancellationRequested)
-                {
-                    Console.WriteLine("Listenter Cancelled, Exiting ...");
-                    break;
-                }
-
-                Console.WriteLine("Type a message and press <ENTER> to send a C2D message.");
-                // niave impl - press ctrl-c twice or close window to exit
-                var message = Console.ReadLine();
-                 
-                if(!message.IsNullOrWhiteSpace())
-                    SendCloudToDeviceMessageAsync(config.DeviceConfigs.First().DeviceId, message).Wait();
-            }
+            Task.WaitAll(ackTask, sendTask);
+            
         }
     }
 }
