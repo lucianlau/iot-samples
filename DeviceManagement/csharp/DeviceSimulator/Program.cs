@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Device.Location;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -17,35 +18,88 @@ namespace DeviceSimulator
     /// </summary>
     public class Program
     {
+        #region Data Generators
+        /// <summary>
+        /// Function to generate simple randomized device data as JSON string.
+        /// </summary>
+        private static readonly Func<string, string> GetFlatSampleDeviceData = deviceId =>
+        {
+            const double avgWindSpeed = 10; // m/s
+            var rand = new Random();
+
+            var currentWindSpeed = avgWindSpeed + rand.NextDouble()*4 - 2;
+
+            var telemetryDataPoint = new
+            {
+                deviceId = deviceId,
+                obsTime = DateTime.UtcNow,
+                windSpeed = currentWindSpeed
+            };
+            return JsonConvert.SerializeObject(telemetryDataPoint);
+        };
+
+        /// <summary>
+        /// Function to generate simple randomized device data in CSV format.
+        /// </summary>
+        private static readonly Func<string, string> GetCSVSampleDeviceData = deviceId =>
+        {
+            const string schema = "deviceId,obsTime,windSpeed";
+
+            const double avgWindSpeed = 10; // m/s
+            var rand = new Random();
+
+            var currentWindSpeed = avgWindSpeed + rand.NextDouble() * 4 - 2;
+            
+
+            var telemetryDataPoint = $"{deviceId},{DateTime.UtcNow},{currentWindSpeed}";
+            return telemetryDataPoint;
+        };
+
+        /// <summary>
+        /// Function to generate object graph of randomized device data .
+        /// </summary>
+        private static readonly Func<string, string> GetJSONObjectGraphSampleDeviceData = deviceId =>
+        {
+            const double avgWindSpeed = 10; // m/s
+            var rand = new Random();
+            var location = new GeoCoordinate(47.640568390488625, -122.1293731033802);
+
+            var currentWindSpeed = avgWindSpeed + rand.NextDouble() * 4 - 2;
+
+            var telemetryDataPoint = new
+            {
+                deviceId = deviceId,
+                windSpeed = currentWindSpeed,
+                location = location
+            };
+            return JsonConvert.SerializeObject(telemetryDataPoint);
+        };
+#endregion Data Generators 
+
         /// <summary>
         /// Sends the device to cloud messages (async).
         /// </summary>
         /// <param name="deviceClient">The device client.</param>
         /// <param name="deviceId">The device identifier.</param>
+        /// <param name="dataGenerator">The data generator.</param>
         /// <param name="ct">The cancellation token</param>
-        private static async Task SendDeviceToCloudMessagesAsync(DeviceClient deviceClient, string deviceId, CancellationToken ct)
+        /// <returns></returns>
+        private static async Task SendDeviceToCloudMessagesAsync(
+            DeviceClient deviceClient, 
+            string deviceId, 
+            Func<string, string> dataGenerator, 
+            CancellationToken ct)
         {
-            const double avgWindSpeed = 10; // m/s
-            var rand = new Random();
-
             while (true)
             {
                 if (ct.IsCancellationRequested) break;
 
-                var currentWindSpeed = avgWindSpeed + rand.NextDouble() * 4 - 2;
-
-                var telemetryDataPoint = new
-                {
-                    deviceId = deviceId,
-                    windSpeed = currentWindSpeed
-                };
-                var messageString = JsonConvert.SerializeObject(telemetryDataPoint);
+                var messageString = dataGenerator(deviceId);
                 var message = new Message(Encoding.ASCII.GetBytes(messageString));
-
                 await deviceClient.SendEventAsync(message);
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageString);
 
-                await Task.Delay(10000);
+                await Task.Delay(1000);
             }
         }
 
@@ -123,8 +177,17 @@ namespace DeviceSimulator
                 Console.WriteLine("Exiting ...");
             };
 
+            /*  
+             *  Data Generator Functions
+             *  Select a message type by uncommenting an assignment below
+            */
+            //var dataGenerator = GetFlatSampleDeviceData;
+             var dataGenerator = GetCSVSampleDeviceData;
+            // var dataGenerator = GetJSONObjectGraphSampleDeviceData;
+
+
             // kick off cloud data send.
-            var sendTask = SendDeviceToCloudMessagesAsync(deviceClient, testDevice.DeviceId, cts.Token);
+            var sendTask = SendDeviceToCloudMessagesAsync(deviceClient, testDevice.DeviceId, dataGenerator, cts.Token);
 
             // kick off could data receive
             var receiveTask = ReceiveC2DAsync(deviceClient, azureConfig.IoTHubStorageContainer, cts.Token);
