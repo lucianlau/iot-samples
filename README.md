@@ -9,8 +9,8 @@ A repository of samples &amp; components that can be incorporated and used in Po
 Please see the [Contributing Guidelines](CONTRIBUTING.md)
 
 ## Contributors
-@williamberryiii [William Berry](https://github.com/WilliamBerryiii)
-@shwetams [shwetams](https://github.com/shwetams)
+* @williamberryiii [William Berry](https://github.com/WilliamBerryiii)
+* @shwetams [shwetams](https://github.com/shwetams)
 
 ## License
 This project is licensed under the [MIT License](LICENSE.txt)
