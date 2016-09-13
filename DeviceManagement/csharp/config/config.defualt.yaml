@@ -1,8 +1,9 @@
 AzureIoTHubConfig:
-    IoTHubUri: 
-    IotHubD2cEndpoint: messages/events
-    ConnectionString: 
+  IoTHubUri: 
+  IotHubD2cEndpoint: messages/events
+  ConnectionString: 
 DeviceConfigs:
-    -   DeviceNickname: My Test Device
-        DeviceId: DeviceId
-        DeviceKey: 
+- Nickname: My Test Device
+  DeviceId: DeviceId
+  Key: 
+  Status: Enabled

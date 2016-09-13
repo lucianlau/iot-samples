@@ -61,7 +61,7 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// <value>
         /// The name of the device nickname.
         /// </value>
-        public string DeviceNickname { get; set; }
+        public string Nickname { get; set; }
         /// <summary>
         /// Gets or sets the device identifier.
         /// </summary>
@@ -75,6 +75,13 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// <value>
         /// The device key.
         /// </value>
-        public string DeviceKey { get; set; }
+        public string Key { get; set; }
+        /// <summary>
+        /// Gets or sets the device generation.
+        /// </summary>
+        /// <value>
+        /// The generation.
+        /// </value>
+        public string Status { get; set; }
     }
 }

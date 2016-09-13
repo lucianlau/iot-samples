@@ -76,9 +76,9 @@ namespace Azure.IotHub.Examples.Csharp.DeleteDevice
             GetDevices().Wait();
 
             // Remove a device.
-            Console.WriteLine($"Removing (Id:PrimaryKey): {testDevice.DeviceId}:{testDevice.DeviceKey}.");
+            Console.WriteLine($"Removing (Id:PrimaryKey): {testDevice.DeviceId}:{testDevice.Key}.");
             RemoveDevice(device).Wait();
-            Console.WriteLine($"Removed (Id:PrimaryKey): {testDevice.DeviceId}:{testDevice.DeviceKey}.");
+            Console.WriteLine($"Removed (Id:PrimaryKey): {testDevice.DeviceId}:{testDevice.Key}.");
 
             // show device removed.
             GetDevices().Wait();

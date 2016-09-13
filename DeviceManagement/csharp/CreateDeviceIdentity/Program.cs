@@ -15,16 +15,24 @@ namespace Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity
     {
         private static RegistryManager _registryManager;
 
-        private static async Task<string> AddDeviceAsync(string deviceId)
+        private static async Task<string> AddDeviceAsync(DeviceConfig deviceConfig)
         {
             Device device;
             try
             {
-                device = await _registryManager.AddDeviceAsync(new Device(deviceId));
+                DeviceStatus status;
+                if (!Enum.TryParse(deviceConfig.Status, true, out status)) 
+                    status = DeviceStatus.Disabled;
+
+                var d = new Device(deviceConfig.DeviceId)
+                {
+                    Status = status
+                };
+                device = await _registryManager.AddDeviceAsync(d);
             }
             catch (DeviceAlreadyExistsException)
             {
-                device = await _registryManager.GetDeviceAsync(deviceId);
+                device = await _registryManager.GetDeviceAsync(deviceConfig.DeviceId);
             }
             return device.Authentication.SymmetricKey.PrimaryKey;
         }
@@ -37,17 +45,17 @@ namespace Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity
             var azureConfig = config.AzureIoTHubConfig;
 
             _registryManager = RegistryManager.CreateFromConnectionString(azureConfig.ConnectionString);
-            var task = AddDeviceAsync(testDevice.DeviceId);
+            var task = AddDeviceAsync(testDevice);
             task.Wait();
 
-            testDevice.DeviceKey = task.Result;
+            testDevice.Key = task.Result;
 
             if (configFilePath.UpdateIoTConfiguration(config).Item1)
             {
-                Console.WriteLine($"DeviceId: {testDevice.DeviceId} has DeviceKey: {testDevice.DeviceKey}. Config file: {configFilePath} has been updated accordingly.");
+                Console.WriteLine($"DeviceId: {testDevice.DeviceId} has DeviceKey: {testDevice.Key}. Config file: {configFilePath} has been updated accordingly.");
             } else
             {
-                Console.WriteLine($"Error writing DeviceKey: {testDevice.DeviceKey} for DeviceId: {testDevice.DeviceId} to config file: {configFilePath} ");
+                Console.WriteLine($"Error writing DeviceKey: {testDevice.Key} for DeviceId: {testDevice.DeviceId} to config file: {configFilePath} ");
             }
 
             Console.ReadLine();

@@ -64,6 +64,7 @@ namespace DeviceSimulator
                 Console.WriteLine("Received message: {0}", Encoding.ASCII.GetString(receivedMessage.GetBytes()));
                 Console.ResetColor();
 
+                // this will remove the message from the queue.  
                 await deviceClient.CompleteAsync(receivedMessage);
             }
         }
@@ -75,7 +76,9 @@ namespace DeviceSimulator
             var azureConfig = config.AzureIoTHubConfig;
 
             Console.WriteLine("Simulated device\n");
-            var deviceClient = DeviceClient.Create(azureConfig.IoTHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(testDevice.DeviceId, testDevice.DeviceKey));
+            var deviceClient = DeviceClient.Create(
+                    azureConfig.IoTHubUri, 
+                    new DeviceAuthenticationWithRegistrySymmetricKey(testDevice.DeviceId, testDevice.Key));
 
             var cts = new CancellationTokenSource();
 
