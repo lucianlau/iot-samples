@@ -14,6 +14,7 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// The azure io t hub configuration.
         /// </value>
         public AzureIoTHubConfig AzureIoTHubConfig { get; set; }
+
         /// <summary>
         /// Gets or sets the list of device configurations.
         /// </summary>
@@ -34,6 +35,15 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// The iot hub URI - aka azure portal iot hub host name.
         /// </value>
         public string IoTHubUri { get; set; }
+
+        /// <summary>
+        /// Gets or sets the iot hub storage URI.
+        /// </summary>
+        /// <value>
+        /// The iot hub storage URI.d
+        /// </value>
+        public string IotHubStorageUri { get; set; }
+
         /// <summary>
         /// Gets or sets the io t hub storage container.
         /// </summary>
@@ -41,6 +51,7 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// The io t hub storage container.
         /// </value>
         public string IoTHubStorageContainer { get; set; }
+
         /// <summary>
         /// Gets or sets the iot hub D2C (device to cloud) messaging endpoint.
         /// </summary>
@@ -48,6 +59,7 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// The iot hub D2C (device to client) messaging endpoint.
         /// </value>
         public string IotHubD2CEndpoint { get; set; }
+
         /// <summary>
         /// Gets or sets the connection string to the iot hub.
         /// </summary>
@@ -69,6 +81,7 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// The name of the device nickname.
         /// </value>
         public string Nickname { get; set; }
+
         /// <summary>
         /// Gets or sets the device identifier.
         /// </summary>
@@ -76,6 +89,7 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// The device identifier.
         /// </value>
         public string DeviceId { get; set; }
+
         /// <summary>
         /// Gets or sets the device key.
         /// </summary>
@@ -83,6 +97,7 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// The device key.
         /// </value>
         public string Key { get; set; }
+
         /// <summary>
         /// Gets or sets the device generation.
         /// </summary>

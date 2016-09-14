@@ -73,7 +73,7 @@ from the `SendCloudToDeviceMessages` console.
 
 ### Send Command to Device to Upload File
 In this example we will use two projects, the `DeviceSimulator` and the `SendCloudToDeviceMessages` to explore
-uploading of bulk observation data from our simulated device.  Th simulation might represent the transfer of data collected
+uploading of bulk observation data from our simulated device.  The simulation might represent the transfer of data collected
 during a network outage or perhaps aggregate statistics collected by the device.  To run this simulation you will need to make sure that:
 * the device configured in the `config.yaml` file, has been added to the Azure IoT Hub using the [Create a Device Identity](#create-a-device-identity)
 project
@@ -96,6 +96,12 @@ The `DeviceSimulator` project includes several demo data generation functions fo
 such as [Azure Stream Analytics](https://azure.microsoft.com/en-us/services/stream-analytics/).  To utilize these functions 
 open the project's `Program.cs` file, find the `Data Generator Functions` section and uncomment the examples to send 
 JSON or CSV data form teh simulated device to the IoT Hub.
+
+### Configured Device Export 
+In this example we will use the `Job` project to explore data exports using the Registry Manager and the IoT Hub Storage Account. The goal
+will be to locally persist the list of configured devices and device symetric keys for use in automated field management tasks.
+
+
 
 ## License
 This project is licensed under the [MIT License](/LICENSE.txt)
