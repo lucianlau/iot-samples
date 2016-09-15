@@ -24,12 +24,16 @@ project.
 * [Pushing Different Data Types](#pushing-different-data-types)
 
 ### Create a Device Identity
+[view project code](/DeviceManagement/csharp/CreateDeviceIdentity/Program.cs)
+
 This example utilizes the connection string and device id of the `config.yaml` file to configure
 a device in your Azure IoT Hub.  After running the project with the debugger, the device's PrimaryKey
 field in the `config.yaml` file will be updated for use in other simulations.  A list of properties
 that can be configured for your test device can be found on the [Iot Hub Guide for Developers](https://azure.microsoft.com/en-us/documentation/articles/iot-hub-devguide/#device-identity-registry)
 
 ### Delete a Device Identity
+[view project code](/DeviceManagement/csharp/DeleteDevice/Program.cs)
+
 This example performs the following steps:
 1. Create a device identity in your Azure IoT Hub if it does not already exist based on the `config.yaml` file.
 2. Display a list of configured devices (should be at least 1 device after step 1).
@@ -41,10 +45,17 @@ See the ``public static async Task RemoveDevice(Device device)`` method in `Prog
 call to remove configured devices.
 
 ### Push Data to Azure IoT Hub
+[view code](/DeviceManagement/csharp/DeviceSimulator/Program.cs)
+
 This example is a simulated IoT device that posts semi-randomized wind measurements to the configured
-Azure IoT Hub (for a more enhanced device simulator please see the [F# simulator](/DeviceManagement/fsharp/README.md#push-data-to-azure-iot-hub), which has more capabilities).
+Azure IoT Hub.  This project is used in most of the following simulations as the data pump and has
+several features to facilite the testing of different data schema.
+
 
 ### Read Data Pushed to Azure IoT Hub
+[view code](/DeviceManagement/csharp/ReadDeviceToCoudMessages/Program.cs)
+
+
 In this example we use two projects,`DeviceSimulator` and `ReadDeviceToCoudMessages` to initiate traffic
 to the Azure IoT Hub and then read the pushed data back.  This simulation might represent a streaming aggregation
 or monitoring applciation for connected devices.  To run this simulation you will need to make sure that the device
@@ -57,6 +68,8 @@ Running the debugger will start both projects and you should see two console win
 flowing to and being read from your Azure IoT Hub.
 
 ### Send Notification from Azure Iot Hub to Device
+[view code](/DeviceManagement/csharp/SendCloudToDeviceMessages/Program.cs)
+
 In this example we use two projects, the `DeviceSimulator` and the `SendCloudToDeviceMessages` to initiate traffic
 from the Azure IoT Hub to the device, having the device then *ACK* the received commands.  This simulation represents a naive [SCADA](https://en.wikipedia.org/wiki/SCADA)
 implementation for remote control of devices. To run this simulation you will need to make sure that the device
@@ -72,6 +85,8 @@ from the `SendCloudToDeviceMessages` console.
 *Suggestion*: play with sending multiple messages quickly and see how messages are pulled from the hub byt the controler.
 
 ### Send Command to Device to Upload File
+[view code](/DeviceManagement/csharp/SendCloudToDeviceMessages/Program.cs)
+
 In this example we will use two projects, the `DeviceSimulator` and the `SendCloudToDeviceMessages` to explore
 uploading of bulk observation data from our simulated device.  The simulation might represent the transfer of data collected
 during a network outage or perhaps aggregate statistics collected by the device.  To run this simulation you will need to make sure that:
@@ -92,12 +107,14 @@ from the `SendCloudToDeviceMessages` console.  In the `SendCloudToDeviceMessages
 has uploaded the `SendCloudToDeviceMessages` will display a receipt notification.
 
 ### Pushing Different Data Type
+[view code](/DeviceManagement/csharp/DeviceSimulator/Program.cs)
+
 The `DeviceSimulator` project includes several demo data generation functions for use in exporing other Azure products
 such as [Azure Stream Analytics](https://azure.microsoft.com/en-us/services/stream-analytics/).  To utilize these functions 
 open the project's `Program.cs` file, find the `Data Generator Functions` section and uncomment the examples to send 
 JSON or CSV data form teh simulated device to the IoT Hub.
 
-### Configured Device Export 
+### Configured Device Export [WIP]
 In this example we will use the `Job` project to explore data exports using the Registry Manager and the IoT Hub Storage Account. The goal
 will be to locally persist the list of configured devices and device symetric keys for use in automated field management tasks.
 

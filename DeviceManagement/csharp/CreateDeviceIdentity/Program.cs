@@ -15,6 +15,11 @@ namespace Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity
     {
         private static RegistryManager _registryManager;
 
+        /// <summary>
+        /// Adds the device asynchronously.
+        /// </summary>
+        /// <param name="deviceConfig">The device configuration.</param>
+        /// <returns></returns>
         private static async Task<string> AddDeviceAsync(DeviceConfig deviceConfig)
         {
             Device device;
