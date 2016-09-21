@@ -118,7 +118,5 @@ JSON or CSV data form teh simulated device to the IoT Hub.
 In this example we will use the `Job` project to explore data exports using the Registry Manager and the IoT Hub Storage Account. The goal
 will be to locally persist the list of configured devices and device symetric keys for use in automated field management tasks.
 
-
-
 ## License
 This project is licensed under the [MIT License](/LICENSE.txt)

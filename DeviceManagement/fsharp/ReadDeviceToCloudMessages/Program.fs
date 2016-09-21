@@ -10,15 +10,16 @@ open System.Threading.Tasks
 open FSharp.Configuration
 open Microsoft.ServiceBus.Messaging 
 
-type Config = YamlConfig<FilePath="../config.yaml", ReadOnly=true>
+type Config = YamlConfig<FilePath="../config/config.yaml", ReadOnly=true>
 
 module Main = 
     
     [<EntryPoint>]
     let main argv = 
         let config = Config()
-        let connectionString = config.AzureIoTHub.ConnectionString
-        let iotHubD2cEndpoint = config.AzureIoTHub.EndPoint
+        config.Load("../../config/config.yaml")
+        let connectionString = config.AzureIoTHubConfig.ConnectionString
+        let iotHubD2cEndpoint = config.AzureIoTHubConfig.IotHubD2CEndpoint
         
         let eventHubClient connectionString iotHubD2cEndpoint = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint)
         let eventHubReceiver (eventHubClient : EventHubClient) (partition : string) = 

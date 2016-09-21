@@ -82,10 +82,6 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
-    <None Include="..\config.yaml">
-      <Link>config.yaml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

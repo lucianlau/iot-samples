@@ -4,19 +4,21 @@
 namespace Azure.IoTHub.Examples.FSharp.CreateDeviceIdentity
 
 open System
+open System.Linq
 open FSharp.Configuration
 open Microsoft.Azure.Devices
 open Microsoft.Azure.Devices.Common.Exceptions
 
-type Config = YamlConfig<FilePath="../config.yaml", ReadOnly=true>
+type Config = YamlConfig<FilePath="../config/config.yaml", ReadOnly=true>
 
 module Main = 
     
     [<EntryPoint>]
     let main argv = 
         let config = Config()
-        let connectionString = config.AzureIoTHub.ConnectionString
-        let deviceId = config.AzureIoTHub.DeviceId
+        config.Load("../../../config/config.yaml")
+        let connectionString = config.AzureIoTHubConfig.ConnectionString
+        let deviceId = config.DeviceConfigs.First().DeviceId
     
         let printDeviceKey (device: Device) = printfn "Generated device key: %A" device.Authentication.SymmetricKey.PrimaryKey
     
