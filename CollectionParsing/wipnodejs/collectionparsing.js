@@ -1,12 +1,17 @@
 function processArray(obj, arraykeys, keyIndex)
 {
-    obj.keys.forEach(function (key) {
+   
+    Object.keys(obj).forEach(function (key) {
         if (arraykeys[keyIndex] == key) {
+            if(keyIndex < arraykeys.length){
+               keyIndex++;
+              }            
             if (Array.isArray(obj[key])) {
                 var i = 0;
                 while (i < obj[key].length) {
                     if (Array.isArray(obj[key][i])) {
-                        processArray(obj[key][i], arraykeys, arrIndex);
+                       
+                        processArray(obj[key][i], arraykeys, keyIndex);
                     }
                     else {
                         msgToSend.push(obj[key][i]);
@@ -14,17 +19,18 @@ function processArray(obj, arraykeys, keyIndex)
                     i++;
                 }
             }
-            if (keyIndex < arraykeys.length)
-            {
-                keyIndex++;
+                    
             }
             
-        }
+            
+            
+        
     });
 }
 
 function processMsg(msg)
 {
+    console.log("message msg "+ msg);
     var obj = JSON.parse(msg);
     // ****//
     var arraykeys = config.splitby.split("[.]")
@@ -50,7 +56,9 @@ function processMsg(msg)
     if (arraykeys.length == 1 && arraykeys[0].length > 0) {
 
         var i = 0;
-        obj.keys.forEach(function (key) {
+
+        Object.keys(obj).forEach(function (key) {
+            
             if (key == arraykeys[0]) {
                 if (Array.isArray(obj[key])) {
                     while (i < obj[key].length) {
@@ -69,13 +77,19 @@ function processMsg(msg)
     }
     if (arraykeys.length > 1) {
         var arrIndex = 0
-        obj.keys.forEach(function (key) {
+
+        Object.keys(obj).forEach(function (key) {
             if (arraykeys[arrIndex] == key) {
-                if (Array.isArray(obj[key])) {
+                console.log("found first key " + key + "arrIndex : " + arrIndex);
+                arrIndex++;
+                   if (Array.isArray(obj[key])) {
+                    console.log("obj[key] is an array" + JSON.stringify(obj[key]));
                     var i = 0;
                     while (i < obj[key].length)
                     {
+                        console.log("obj[key] length for i " + i + obj[key].length);
                         if (Array.isArray(obj[key][i])) {
+                            console.log("Sending following to process array" + JSON.stringify(obj[key][i]) + " arraykeys " + arraykeys + "array index "+ arrIndex);  
                             processArray(obj[key][i], arraykeys, arrIndex);
                         }
                         else {
@@ -84,7 +98,7 @@ function processMsg(msg)
                         i++;
                    }
                 }
-                arrIndex++;
+                
             }
         });
     }
@@ -100,11 +114,11 @@ var fs = require('fs');
 // Array: [{"r":[{"a1":[{"e1":"v1","e2":"v2"},{"e1":"v11","e2":"v21"},{"e1":"v12","e2":"v22"} ]}]} the config would be {splitby:'r[.]a1[.]'}
 
 //var config = { splitby: 'keyname1[.]keyname2[.]keyname3[.]' }
-var config = {splitby:'root[.]a1'}
+var config = {splitby:'root[.]a1[.]a2'}
 console.log("parsing array sample 1");
 // Modify this part to read from IoT Hub
 //var file1 = fs.readFileSync('sample1.json');
-var file1 = fs.readFileSync('sample2.json');
+var file1 = fs.readFileSync('sample3.json');
 //var file1 = fs.readFileSync('sample3.json');
 
 var msgToSend = []
@@ -114,7 +128,9 @@ processMsg(file1);
 var x = 0;
 while (x < msgToSend.length)
 {
+    console.log("printing message to send...");
     console.log(msgToSend[x]);
+    x++;
 }
 
 
