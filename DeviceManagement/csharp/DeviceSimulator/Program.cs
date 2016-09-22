@@ -252,17 +252,17 @@ namespace DeviceSimulator
             /* 
              * kick off simple cloud data send.
              */
-            var sendTask = SendDeviceToCloudMessagesAsync(deviceClient, testDevice.DeviceId, dataGenerator, cts.Token);
+            //var sendTask = SendDeviceToCloudMessagesAsync(deviceClient, testDevice.DeviceId, dataGenerator, cts.Token);
 
 
 
             /* 
              * run batched & compressed data generator
              */
-            //var sendTask = Task.Run(() =>
-            //                    GetAggregateJSONDataStream(testDevice.DeviceId)
-            //                        .Compress()
-            //                        .SendDeviceToCloudMessageAsync(deviceClient), cts.Token);
+            var sendTask = Task.Run(() =>
+                                GetAggregateJSONDataStream(testDevice.DeviceId)
+                                    .Compress()
+                                    .SendDeviceToCloudMessageAsync(deviceClient), cts.Token);
 
 
 
