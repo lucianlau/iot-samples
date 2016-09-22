@@ -40,9 +40,9 @@ module Main =
         let avgWindSpeed = 10.
         let rand = new Random()
     
-        let windSpeedMessage location = 
+        let windSpeedMessage location index = 
                 let telemetryReading = { 
-                    deviceId = deviceId
+                    deviceId = sprintf "%s%i" deviceId index
                     windSpeed = (avgWindSpeed + rand.NextDouble() * 4. - 2.) 
                     location = location
                     }
@@ -104,7 +104,7 @@ module Main =
         
         let dataStream = 
             Seq.initInfinite ( fun x -> 
-                String.concat "|" (nycSites |> Array.map windSpeedMessage)
+                String.concat "|" (nycSites |> Array.mapi (fun idx site -> windSpeedMessage site idx))
             )
             |> Seq.iter (fun x -> 
                 dataSendTask x |> Async.RunSynchronously)

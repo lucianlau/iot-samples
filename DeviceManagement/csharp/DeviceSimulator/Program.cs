@@ -125,7 +125,7 @@ namespace DeviceSimulator
 
                     return JsonConvert.SerializeObject(new TelemetryDataPoint
                     {
-                        deviceId = deviceId,
+                        deviceId = deviceId + index,
                         obsTime = DateTime.UtcNow,
                         windSpeed = currentWindSpeed,
                         location = loc
@@ -311,7 +311,7 @@ namespace DeviceSimulator
                 var message = new Message(Encoding.ASCII.GetBytes(data));
                 await deviceClient.SendEventAsync(message);
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, data);
-                await Task.Delay(1000);
+                await Task.Delay(30000);
             }
         }
     }

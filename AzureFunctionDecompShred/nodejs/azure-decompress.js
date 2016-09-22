@@ -9,10 +9,10 @@ module.exports = function (context, input) {
     var buffer =  Buffer.from(input, 'base64').slice(4);
 
     eventHubs.init({
-        hubNamespace: 'postshred.servicebus.windows.net',
-        hubName: 'demo',
-        keyName: 'demo',
-        key: 'GilIgSl7Rk8wMvuL27m9MyQjN8H5DTJV5WdsVJ+dlSM='
+        hubNamespace: '{event hub namespace}',
+        hubName: '{event hub name}}',
+        keyName: '{event hub read key name}',
+        key: '{event hub read key value}'
     });
     
     
