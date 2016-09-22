@@ -4,14 +4,17 @@
 namespace Azure.IoTHub.Examples.FSharp.SimulatedDevice
 
 open System 
+open System.Linq
 open System.Text
+open System.IO
+open System.IO.Compression
 open System.Device.Location
 open System.Threading
 open FSharp.Configuration
 open Microsoft.Azure.Devices.Client
 open Newtonsoft.Json
 
-type Config = YamlConfig<FilePath="../config.yaml", ReadOnly=true>
+type Config = YamlConfig<FilePath="../config/config.yaml", ReadOnly=true>
 
 type telemetryDataPoint = {
     location : GeoCoordinate 
@@ -27,24 +30,24 @@ module Main =
     [<EntryPoint>]
     let main argv = 
         let config = Config()
-        let iotHubUri   = config.AzureIoTHub.IoTHubUri
-        let deviceKey   = config.AzureIoTHub.DeviceKey
-        let deviceId    = config.AzureIoTHub.DeviceId
+        config.Load("../../../config/config.yaml")
+        let iotHubUri   = config.AzureIoTHubConfig.IoTHubUri
+        let deviceKey   = config.DeviceConfigs.First().Key
+        let deviceId    = config.DeviceConfigs.First().DeviceId
     
         let deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(deviceId, deviceKey))
     
         let avgWindSpeed = 10.
         let rand = new Random()
     
-        let windSpeedMessage location = Seq.initInfinite (fun index -> 
+        let windSpeedMessage location = 
                 let telemetryReading = { 
                     deviceId = deviceId
                     windSpeed = (avgWindSpeed + rand.NextDouble() * 4. - 2.) 
                     location = location
                     }
                 let json = JsonConvert.SerializeObject(telemetryReading)
-                index, new Message(Encoding.ASCII.GetBytes(json)), json
-            )
+                json
 
         let getRandomGeoCoordinate seed (lat : float) (long : float) (radius : float) : GeoCoordinate = 
             // check out http://gis.stackexchange.com/a/68275 for where this calc originated.
@@ -55,24 +58,58 @@ module Main =
             let t = 2. * Math.PI * v
             let x = (w * Math.Cos(t)) / Math.Cos(lat)
             let y = w * Math.Sin(t)
-            GeoCoordinate(y+lat, x+long)          
-    
-        let dataSendTask location = 
+            GeoCoordinate(y+lat, x+long)         
+           
+        //http://madskristensen.net/post/Compress-and-decompress-strings-in-C
+
+        let compress (data : string) = 
+            let buffer = Encoding.UTF8.GetBytes(data)
+            let ms = new MemoryStream()
+            (   use zip = new GZipStream(ms, CompressionMode.Compress, true)
+                zip.Write(buffer, 0, buffer.Length) )
+            ms.Position <- 0L
+            let compressed = Array.zeroCreate<byte> (int(ms.Length))
+            ms.Read(compressed, 0, compressed.Length) |> ignore
+            let gzipBuffer = Array.zeroCreate<byte> (int(compressed.Length) + 4)
+            Buffer.BlockCopy(compressed, 0, gzipBuffer, 4, compressed.Length)
+            Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzipBuffer, 0, 4)
+            Convert.ToBase64String gzipBuffer
+
+        let decompress (data : string) = 
+            let gzipBuffer = Convert.FromBase64String(data)
+            (   use memoryStream = new MemoryStream()
+                let dataLength = BitConverter.ToInt32(gzipBuffer, 0)
+                memoryStream.Write(gzipBuffer, 4, gzipBuffer.Length - 4)
+                let buffer = Array.zeroCreate<byte> (int(dataLength))
+                memoryStream.Position <- 0L
+                (   use zip = new GZipStream(memoryStream, CompressionMode.Decompress)
+                    zip.Read(buffer, 0, buffer.Length) |> ignore)
+                Encoding.UTF8.GetString(buffer)
+            )
+            
+                   
+        let dataSendTask (data : string) =
             async {
-                windSpeedMessage location |> Seq.iter (fun (index, message, json) -> 
-                    deviceClient.SendEventAsync(message) |> Async.AwaitIAsyncResult |> Async.Ignore |> ignore
-                    printfn "%O > Sending message %i: %s" (DateTime.Now.ToString()) index json
-                    Thread.Sleep 10000
-                    )
-            } 
+                let compressedData = compress data
+                let message = new Message(Encoding.UTF8.GetBytes(compressedData))
+                deviceClient.SendEventAsync(message) 
+                        |> Async.AwaitIAsyncResult 
+                        |> Async.Ignore 
+                        |> ignore
+                printfn "%O > Sending message %s" (DateTime.Now.ToString()) (decompress compressedData)
+                Thread.Sleep 5000
+            }
         
         let nycSites = Array.init 10 (fun index -> getRandomGeoCoordinate index 40.7128 74.0059 (20000.))
         
-        nycSites 
-        |> Array.map dataSendTask
-        |> Async.Parallel
-        |> Async.RunSynchronously
-        |> ignore
+        let dataStream = 
+            Seq.initInfinite ( fun x -> 
+                String.concat "|" (nycSites |> Array.map windSpeedMessage)
+            )
+            |> Seq.iter (fun x -> 
+                dataSendTask x |> Async.RunSynchronously)
+             
+       
     
         printfn "%A" argv
         0 // return an integer exit code

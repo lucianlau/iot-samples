@@ -55,7 +55,6 @@ namespace Jobs
 
             RequestDeviceListExport(registryManager, azureConfig.IotHubStorageUri, cts.Token).Wait(cts.Token);
 
-
             GetCurrentJobListFromHubAsync(registryManager, cts.Token).Wait(cts.Token);
 
             Console.ReadLine();
