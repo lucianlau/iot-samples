@@ -1,0 +1,6 @@
+SELECT      id,
+            System.Timestamp AS sysTime,
+            AVG(temperature) AS avg_temperature
+INTO        output
+FROM        input
+GROUP BY    TumblingWindow(s, 5), id

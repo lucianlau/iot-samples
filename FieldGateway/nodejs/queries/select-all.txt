@@ -1,0 +1,5 @@
+SELECT  id,
+        System.Timestamp as sysTime,
+        temperature
+INTO    output
+FROM    input
