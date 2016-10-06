@@ -6,7 +6,9 @@
       "module path": "bin\\\\nodejs_binding_hl.dll",
       "args": {
         "main_path": "js\\\\receiver.js",
-        "args": null
+        "args": {
+          "port" : 8080  
+        }
       }
     },
     {

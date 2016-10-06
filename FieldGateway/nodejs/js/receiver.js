@@ -5,8 +5,6 @@
 var express = require('express');
 var bodyParser = require('body-parser')
 
-const PORT = 8080
-
 /// Sensor module
 module.exports = {
     messageBus: null,
@@ -60,7 +58,7 @@ module.exports = {
         });
 
         // Start
-        app.listen(PORT, function(){
+        app.listen(this.configuration.port, function(){
             console.log("Started server on port %s", PORT)
         });
 

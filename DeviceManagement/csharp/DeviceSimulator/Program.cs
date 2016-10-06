@@ -120,8 +120,8 @@ namespace DeviceSimulator
             {
                 var telemetryData = locations.Select((loc, index) =>
                 {
-                    var rand = new Random(index);
-                    var currentWindSpeed = avgWindSpeed + rand.NextDouble() * 4 - 2;
+                    var rand = new Random(index + DateTime.Now.Second);
+                    var currentWindSpeed = avgWindSpeed + rand.NextDouble() * 8 - 4;
 
                     return JsonConvert.SerializeObject(new TelemetryDataPoint
                     {
