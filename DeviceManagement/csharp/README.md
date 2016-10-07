@@ -1,17 +1,50 @@
 # iot-samples / DeviceManagement / C#
 This folder contains Azure IoT Device Management samples written in C#
 
-## Getting Started
-The easiest way to start exploing the C# language samples for Device Management with
-Azure IoT is through the primary [Visual Studio solution](/DeviceManagement/csharp/Azure.IoTHub.Examples.CSharp.DeviceManagement.sln).
+## Quick Start
+To get started exploring the C# language samples for Device Management: 
+* Open the [Visual Studio solution](/DeviceManagement/csharp/Azure.IoTHub.Examples.CSharp.DeviceManagement.sln)
+* Run a Nuget Package Restore 
+* Copy `config/config.default.yaml` to `config/config.yaml` \* ... please see [Configuration](#configuration) below for details\* 
+* Open `config/config.yaml` and enter: 
+        * The IoT Hub HostName
+        * The IoT Hub Connection string
+        * A unique DeviceId & Nickname
+* Set the CreateDeviceIdentity.csproj as the start-up project.
+* Run the solution. 
+* Confirm that the `Key` setting for the configured device is now populated in the `config/config.yaml` file.
 
-Each project in the main solution includes a linked YAML configuration file `config.yaml`. The
-[config.yaml](/DeviceManagement/csharp/config.yaml) is serialized and deserialized from an object
+## Getting Started 
+This C# solution includes a number of samples that demonstrate the basic Device Management functionality of the Azure 
+IoT Hub.  Each of the [solution/simulations](#solutions/simulations) listed below will walk you though a happy path 
+usage of IoT Hub and its associated SDKs.  
+
+#### Package Restore
+Begin by opening the C# [Visual Studio solution](/DeviceManagement/csharp/Azure.IoTHub.Examples.CSharp.DeviceManagement.sln) and
+kickoff a Nuget Restore.
+![Restore Nuget Packages][rnp]
+
+#### Configuration
+Each project in the solution leverages a shared configuration file `config/config.yaml`, which you will notice is missing from 
+the `config` folder.  We've excluded the configuration file used at runtime to help prevent accidental pushes of secure keys 
+to source control, so you'll need to copy `config.default.yaml` to `config.yaml` before entering configuration values. 
+
+Keep in mind that the [config.yaml](/DeviceManagement/csharp/config.default.yaml) file is serialized and deserialized from an object
 model that is included in the [`Azure.IoTHub.Examples.CSharp.Core`](/DeviceManagement/csharp/Core/README.md) project and may be read and
-written to from any number of projects.  After [setting up a resource group](https://azure.microsoft.com/en-us/documentation/articles/resource-group-portal/)
-for your demo, [create an IoT Hub](https://azure.microsoft.com/en-us/documentation/articles/iot-hub-csharp-csharp-getstarted/#create-an-iot-hub)
-and paste the primary connection string, noted in step #6, into the `config.yaml` file.  Lastly,
-set a unique `DeviceId` in the `config.yaml` file and proceed to the [Create a Device Identity](#create-a-device-identity)
+written to from any number of projects in this solution.  \
+
+At the bare minimum, you will need to add configuration information for the IoT Hub, including host name and connection strings and 
+create a unique DeviceId to tests with.  Please follow these handy guides for setting up an Azure Resource Group and IoT Hub:  
+* [setting up a resource group](https://azure.microsoft.com/en-us/documentation/articles/resource-group-portal/)
+* [create an IoT Hub](https://azure.microsoft.com/en-us/documentation/articles/iot-hub-csharp-csharp-getstarted/#create-an-iot-hub)
+
+With the resource group and IoT Hub created:
+* copy the primary connection string into the `config.yaml->ConnectionString` field.  
+![Hub Connection String][cstring]
+* copy the hub host name into the `config.yaml->Hostname` field.
+![Hub Hostname][hostname]
+
+Lastly, set a unique `DeviceId` in the `config.yaml` file and proceed to the [Create a Device Identity](#create-a-device-identity)
 project.
 
 ### Solutions/Simulations
@@ -120,3 +153,11 @@ will be to locally persist the list of configured devices and device symetric ke
 
 ## License
 This project is licensed under the [MIT License](/LICENSE.txt)
+
+
+
+
+
+[rnp]: /DeviceManagement/csharp/assets/rnp.png "Restore Nuget Packages"
+[cstring]: /DeviceManagement/csharp/assets/cstring.png "Connection String"
+[hostname]: /DeviceManagement/csharp/assets/hostname.png "Hostname"

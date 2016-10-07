@@ -34,7 +34,7 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// <value>
         /// The iot hub URI - aka azure portal iot hub host name.
         /// </value>
-        public string IoTHubUri { get; set; }
+        public string Hostname { get; set; }
 
         /// <summary>
         /// Gets or sets the iot hub storage URI.

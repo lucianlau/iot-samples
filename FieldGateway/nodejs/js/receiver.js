@@ -14,7 +14,7 @@ module.exports = {
     create: function (messageBus, configuration) {
         this.messageBus = messageBus;
         this.configuration = configuration;
-
+        
         var app = express();
         app.use(bodyParser.json())
 
@@ -57,10 +57,14 @@ module.exports = {
             res.status(500).send('Internal Server Error.');
         });
 
+        // service startup callback
+        function startup(port){
+            console.log("Started server on port %s", port)
+        }
+        var port = this.configuration.port
+
         // Start
-        app.listen(this.configuration.port, function(){
-            console.log("Started server on port %s", PORT)
-        });
+        app.listen(port, startup(port));
 
         return true;
     },

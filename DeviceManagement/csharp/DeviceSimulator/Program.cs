@@ -225,7 +225,7 @@ namespace DeviceSimulator
 
             Console.WriteLine("Simulated device");
             var deviceClient = DeviceClient.Create(
-                    azureConfig.IoTHubUri, 
+                    azureConfig.Hostname, 
                     new DeviceAuthenticationWithRegistrySymmetricKey(testDevice.DeviceId, testDevice.Key));
 
             var cts = new CancellationTokenSource();

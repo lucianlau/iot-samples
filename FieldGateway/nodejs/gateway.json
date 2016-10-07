@@ -7,7 +7,7 @@
       "args": {
         "main_path": "js\\\\receiver.js",
         "args": {
-          "port" : 8080  
+          "port" : "8080"
         }
       }
     },
@@ -33,7 +33,7 @@
       "args": {
         "main_path": "js\\\\iothub.js",
         "args": {
-          "connection_string": "{iot-hub-connection-string}"
+          "connection_string": "HostName=iot-demo-hub.azure-devices.net;DeviceId=DeviceId;SharedAccessKey=sDOUd5P+zqHZUqh/1zfsN6M9FWGmQ1K2BLL2Wl6wNBY="
         }
       }
     },
