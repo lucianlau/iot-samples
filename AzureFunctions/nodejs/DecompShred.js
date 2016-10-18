@@ -21,13 +21,14 @@ module.exports = function (context, input) {
             var decompressed = buffer.toString('utf-8');
             var messages = decompressed.split('|');
     
-            messages.map(function(message){
+            for(let m of messages){
                 
-                // process event hub relay here.
-
-                context.log('Processing message:', message);
+                eventHubs.sendMessage({
+                    message: m
+                });
                 
-            });
+                context.log('Processing message:', m);
+            }
             
         } else {
             context.log(err);// handle error

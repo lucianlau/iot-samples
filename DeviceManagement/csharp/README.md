@@ -151,9 +151,6 @@ JSON or CSV data form the simulated device to the IoT Hub.
 This project is licensed under the [MIT License](/LICENSE.txt)
 
 
-
-
-
 [rnp]: /DeviceManagement/csharp/assets/rnp.png "Restore Nuget Packages"
 [cstring]: /DeviceManagement/csharp/assets/cstring.png "Connection String"
 [hostname]: /DeviceManagement/csharp/assets/hostname.png "Hostname"

@@ -1,6 +1,9 @@
 'use strict';
 var request = require('request');
 
+let deviceUri = '{device_address}'; // gateway default is localhost
+let port = '{port}'; // gateway default is 8080 and set in gateway.json file for receiver.js module
+
 setInterval(() => {
     var data = {
         deviceId : "Id",
@@ -14,7 +17,7 @@ setInterval(() => {
     };
 
     var options = {
-        url: 'http://10.121.209.60:8080/messages',
+        url: `http://{deviceUri}:{port}/messages`,
         method: 'POST',
         headers: {
             'User-Agent':       'Super Agent/0.0.1',

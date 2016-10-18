@@ -8,9 +8,7 @@ in containing folders.
 # Supported Languages
 * [C#](/DeviceManagement/csharp/README.md)
 * [F# - [WIP]](/DeviceManagement/fsharp/README.md)
-* [Java - [WIP]](/DeviceManagement/java/README.md)
 * [Nodejs - [WIP]](/DeviceManagement/nodejs/README.md)
-* [Python - [WIP]](/DeviceManagement/python/README.md) 
 
 `* [WIP] - work in progress.
 

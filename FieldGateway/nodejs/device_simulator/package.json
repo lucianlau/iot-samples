@@ -1,9 +1,9 @@
 {
-  "name": "nodejs_modules",
+  "name": "field-device-simulator",
   "version": "0.0.1",
-  "description": "eample Azure IoT Hub Field Gateway",
+  "description": "Example Azure IoT Hub Field Gateway",
   "repository":"",
-  "main": "iothub_writer.js",
+  "main": "simulator.js",
   "author": "Microsoft",
   "license": "MIT",
   "dependencies": {
