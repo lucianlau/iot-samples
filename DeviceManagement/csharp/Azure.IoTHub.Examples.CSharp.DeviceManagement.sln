@@ -11,11 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{3E5B06
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity", "CreateDeviceIdentity\Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity.csproj", "{4B4A4CF3-762B-4BCB-8868-A6B31719B0B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.IotHub.Examples.Csharp.DeleteDevice", "DeleteDevice\Azure.IotHub.Examples.Csharp.DeleteDevice.csproj", "{D73192F1-87B1-443F-9EB1-6CB049BAFEA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.IoTHub.Examples.Csharp.DeleteDevice", "DeleteDevice\Azure.IoTHub.Examples.Csharp.DeleteDevice.csproj", "{D73192F1-87B1-443F-9EB1-6CB049BAFEA6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.IoTHub.Examples.CSharp.DeviceSimulator", "DeviceSimulator\Azure.IoTHub.Examples.CSharp.DeviceSimulator.csproj", "{1C25C241-FC81-48C6-BE21-2307F92427BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.IotHub.Examples.CSharp.ReadDeviceToCloudMessages", "ReadDeviceToClouldMessages\Azure.IotHub.Examples.CSharp.ReadDeviceToCloudMessages.csproj", "{DAAF449F-2148-4D83-A419-289EA66E15E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.IoTHub.Examples.CSharp.ReadDeviceToCloudMessages", "ReadDeviceToClouldMessages\Azure.IoTHub.Examples.CSharp.ReadDeviceToCloudMessages.csproj", "{DAAF449F-2148-4D83-A419-289EA66E15E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.IoTHub.Examples.CSharp.SendCloudToDeviceMessages", "SendCloudToDeviceMessages\Azure.IoTHub.Examples.CSharp.SendCloudToDeviceMessages.csproj", "{A4CA5372-4344-496A-8885-3527BF286C5D}"
 EndProject

@@ -3,7 +3,7 @@ This folder includes Azure IoT sample projects around Device Management.  The fo
 is broken up by language with most samples having language parity.  Simple example 
 projects will be included in the language's primary solution file, located in the 
 directory root, while more complicated simulations will have thier own solution file 
-in the containing folder.
+in containing folders.
 
 # Supported Languages
 * [C#](/DeviceManagement/csharp/README.md)
@@ -12,7 +12,7 @@ in the containing folder.
 * [Nodejs - [WIP]](/DeviceManagement/nodejs/README.md)
 * [Python - [WIP]](/DeviceManagement/python/README.md) 
 
-note: [WIP] - work in progress.
+`* [WIP] - work in progress.
 
 ## License
 This project is licensed under the [MIT License](/LICENSE.txt)

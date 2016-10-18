@@ -70,20 +70,20 @@ namespace DeviceSimulator
         /// <summary>
         /// Function to generate object graph of randomized device data .
         /// </summary>
-        private static readonly Func<string, string> GetJSONObjectGraphSampleDeviceData = deviceId =>
+        private static readonly Func<string, GeoCoordinate, string> GetJSONObjectGraphSampleDeviceData = 
+            (deviceId, geoCoordinate) =>
         {
             const double avgWindSpeed = 10; // m/s
             var rand = new Random();
-            var location = new GeoCoordinate(47.640568390488625, -122.1293731033802);
 
-            var currentWindSpeed = avgWindSpeed + rand.NextDouble()*4 - 2;
+            var currentWindSpeed = avgWindSpeed + rand.NextDouble() * 4 - 2;
 
             var telemetryDataPoint = new TelemetryDataPoint
             {
                 deviceId = deviceId,
                 obsTime = DateTime.UtcNow,
                 windSpeed = currentWindSpeed,
-                location = location
+                location = geoCoordinate
             };
             return JsonConvert.SerializeObject(telemetryDataPoint);
         };
@@ -120,8 +120,8 @@ namespace DeviceSimulator
             {
                 var telemetryData = locations.Select((loc, index) =>
                 {
-                    var rand = new Random(index + DateTime.Now.Second);
-                    var currentWindSpeed = avgWindSpeed + rand.NextDouble() * 8 - 4;
+                    var rand = new Random(DateTime.Now.Millisecond % (index+ 1));
+                    var currentWindSpeed = avgWindSpeed + rand.NextDouble() * 4 - 2;
 
                     return JsonConvert.SerializeObject(new TelemetryDataPoint
                     {
@@ -160,7 +160,7 @@ namespace DeviceSimulator
                 await deviceClient.SendEventAsync(message);
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageString);
 
-                await Task.Delay(5000);
+                await Task.Delay(1000, ct);
             }
         }
 
@@ -243,7 +243,7 @@ namespace DeviceSimulator
              *  Data Generator Functions
              *  Select a message type by uncommenting an assignment below
             */
-            var dataGenerator = GetFlatSampleDeviceData;
+            // var dataGenerator = GetFlatSampleDeviceData;
             // var dataGenerator = GetCSVSampleDeviceData;
             // var dataGenerator = GetJSONObjectGraphSampleDeviceData;
 
@@ -311,7 +311,7 @@ namespace DeviceSimulator
                 var message = new Message(Encoding.ASCII.GetBytes(data));
                 await deviceClient.SendEventAsync(message);
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, data);
-                await Task.Delay(30000);
+                await Task.Delay(5000);
             }
         }
     }

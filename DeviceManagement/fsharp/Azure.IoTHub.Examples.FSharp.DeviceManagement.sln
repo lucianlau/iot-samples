@@ -15,7 +15,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Azure.IoTHub.Examples.FShar
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{33664524-E2A5-43A4-B898-6C3B75296F78}"
 	ProjectSection(SolutionItems) = preProject
-		config.yaml = config.yaml
+		config\config.default.yaml = config\config.default.yaml
+		config\config.yaml = config\config.yaml
 	EndProjectSection
 EndProject
 Global

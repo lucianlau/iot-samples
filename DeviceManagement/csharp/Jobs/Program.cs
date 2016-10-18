@@ -53,7 +53,7 @@ namespace Jobs
 
             var cts = new CancellationTokenSource();
 
-            RequestDeviceListExport(registryManager, azureConfig.IotHubStorageUri, cts.Token).Wait(cts.Token);
+            RequestDeviceListExport(registryManager, azureConfig.IoTHubStorageUri, cts.Token).Wait(cts.Token);
 
             GetCurrentJobListFromHubAsync(registryManager, cts.Token).Wait(cts.Token);
 

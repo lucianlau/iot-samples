@@ -42,7 +42,7 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// <value>
         /// The iot hub storage URI.d
         /// </value>
-        public string IotHubStorageUri { get; set; }
+        public string IoTHubStorageUri { get; set; }
 
         /// <summary>
         /// Gets or sets the io t hub storage container.
@@ -58,7 +58,7 @@ namespace Azure.IoTHub.Examples.CSharp.Core
         /// <value>
         /// The iot hub D2C (device to client) messaging endpoint.
         /// </value>
-        public string IotHubD2CEndpoint { get; set; }
+        public string IoTHubD2CEndpoint { get; set; }
 
         /// <summary>
         /// Gets or sets the connection string to the iot hub.

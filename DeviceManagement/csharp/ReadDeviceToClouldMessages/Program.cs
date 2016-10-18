@@ -43,7 +43,7 @@ namespace ReadDeviceToCloudMessages
             Console.WriteLine("Receive messages. Ctrl-C to exit.");
             _eventHubClient = EventHubClient.CreateFromConnectionString(
                 config.AzureIoTHubConfig.ConnectionString, 
-                config.AzureIoTHubConfig.IotHubD2CEndpoint);
+                config.AzureIoTHubConfig.IoTHubD2CEndpoint);
 
             var d2CPartitions = _eventHubClient.GetRuntimeInformation().PartitionIds;
 

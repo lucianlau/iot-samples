@@ -145,11 +145,7 @@ has uploaded the `SendCloudToDeviceMessages` will display a receipt notification
 The `DeviceSimulator` project includes several demo data generation functions for use in exporing other Azure products
 such as [Azure Stream Analytics](https://azure.microsoft.com/en-us/services/stream-analytics/).  To utilize these functions 
 open the project's `Program.cs` file, find the `Data Generator Functions` section and uncomment the examples to send 
-JSON or CSV data form teh simulated device to the IoT Hub.
-
-### Configured Device Export [WIP]
-In this example we will use the `Job` project to explore data exports using the Registry Manager and the IoT Hub Storage Account. The goal
-will be to locally persist the list of configured devices and device symetric keys for use in automated field management tasks.
+JSON or CSV data form the simulated device to the IoT Hub.
 
 ## License
 This project is licensed under the [MIT License](/LICENSE.txt)

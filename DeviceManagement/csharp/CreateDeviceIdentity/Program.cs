@@ -55,13 +55,9 @@ namespace Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity
 
             testDevice.Key = task.Result;
 
-            if (configFilePath.UpdateIoTConfiguration(config).Item1)
-            {
-                Console.WriteLine($"DeviceId: {testDevice.DeviceId} has DeviceKey: {testDevice.Key}. Config file: {configFilePath} has been updated accordingly.");
-            } else
-            {
-                Console.WriteLine($"Error writing DeviceKey: {testDevice.Key} for DeviceId: {testDevice.DeviceId} to config file: {configFilePath} ");
-            }
+            Console.WriteLine(configFilePath.UpdateIoTConfiguration(config).Item1
+                ? $"DeviceId: {testDevice.DeviceId} has DeviceKey: {testDevice.Key} \r\nConfig file: {configFilePath} has been updated accordingly."
+                : $"Error writing DeviceKey: {testDevice.Key} for DeviceId: {testDevice.DeviceId} to config file: {configFilePath} ");
 
             Console.ReadLine();
         }

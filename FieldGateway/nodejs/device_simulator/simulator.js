@@ -14,7 +14,7 @@ setInterval(() => {
     };
 
     var options = {
-        url: 'http://localhost:8080/messages',
+        url: 'http://10.121.209.60:8080/messages',
         method: 'POST',
         headers: {
             'User-Agent':       'Super Agent/0.0.1',
