@@ -6,7 +6,7 @@ This folder includes Azure IoT sample projects around the Field Gateway SDK.  Si
 * [F# - [WIP]](/FieldGateway/fsharp/README.md)
 * [NodeJS](/FieldGateway/nodejs/README.md)
 
-`* [WIP] - work in progress.
+\* [WIP] - work in progress.
 
 ## License
 This project is licensed under the [MIT License](/LICENSE.txt)

@@ -10,7 +10,7 @@ in containing folders.
 * [F# - [WIP]](/DeviceManagement/fsharp/README.md)
 * [Nodejs - [WIP]](/DeviceManagement/nodejs/README.md)
 
-`* [WIP] - work in progress.
+\* [WIP] - work in progress.
 
 ## License
 This project is licensed under the [MIT License](/LICENSE.txt)
