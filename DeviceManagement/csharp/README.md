@@ -1,4 +1,4 @@
-# iot-samples / DeviceManagement / C#
+# iot-samples/DeviceManagement/C#
 This folder contains Azure IoT Device Management samples written in C#
 
 ## Quick Start

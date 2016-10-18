@@ -1,4 +1,4 @@
-# iot-samples / FieldGateway / NodeJs
+# iot-samples/FieldGateway/NodeJs
 
 This device simulator can be used to explore the NodeJs Field Gateway workflow example.  The simulator emits http requests that are received by the gateway's [receiver.js](/FieldGateway/nodejs/js/receiver.js) module, imitating a protocol translation step often found in industrial gateway devices and applications.       
 
