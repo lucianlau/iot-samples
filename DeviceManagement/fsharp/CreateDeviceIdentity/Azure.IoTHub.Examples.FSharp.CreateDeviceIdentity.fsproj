@@ -703,7 +703,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Devices">
-      <HintPath>..\packages\Microsoft.Azure.Devices.1.0.14\lib\net451\Microsoft.Azure.Devices.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Azure.Devices.1.0.15\lib\net451\Microsoft.Azure.Devices.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Security">
@@ -723,19 +723,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PInvoke.BCrypt">
-      <HintPath>..\packages\PInvoke.BCrypt.0.3.90\lib\net40\PInvoke.BCrypt.dll</HintPath>
+      <HintPath>..\packages\PInvoke.BCrypt.0.3.152\lib\net40\PInvoke.BCrypt.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PInvoke.Kernel32">
-      <HintPath>..\packages\PInvoke.Kernel32.0.3.90\lib\net40\PInvoke.Kernel32.dll</HintPath>
+      <HintPath>..\packages\PInvoke.Kernel32.0.3.152\lib\net40\PInvoke.Kernel32.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PInvoke.NCrypt">
-      <HintPath>..\packages\PInvoke.NCrypt.0.3.90\lib\net40\PInvoke.NCrypt.dll</HintPath>
+      <HintPath>..\packages\PInvoke.NCrypt.0.3.152\lib\net40\PInvoke.NCrypt.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PInvoke.Windows.Core">
-      <HintPath>..\packages\PInvoke.Windows.Core.0.3.90\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\PInvoke.Windows.Core.dll</HintPath>
+      <HintPath>..\packages\PInvoke.Windows.Core.0.3.152\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\PInvoke.Windows.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SharpYaml">

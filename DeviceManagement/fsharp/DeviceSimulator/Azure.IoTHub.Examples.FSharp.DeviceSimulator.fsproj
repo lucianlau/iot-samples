@@ -778,7 +778,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Devices.Client">
-      <HintPath>..\packages\Microsoft.Azure.Devices.Client.1.0.18\lib\net45\Microsoft.Azure.Devices.Client.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Azure.Devices.Client.1.0.20\lib\net45\Microsoft.Azure.Devices.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core">
@@ -802,7 +802,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage">
-      <HintPath>..\packages\WindowsAzure.Storage.7.2.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.Storage.7.2.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Security">
@@ -822,19 +822,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PInvoke.BCrypt">
-      <HintPath>..\packages\PInvoke.BCrypt.0.3.90\lib\net40\PInvoke.BCrypt.dll</HintPath>
+      <HintPath>..\packages\PInvoke.BCrypt.0.3.152\lib\net40\PInvoke.BCrypt.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PInvoke.Kernel32">
-      <HintPath>..\packages\PInvoke.Kernel32.0.3.90\lib\net40\PInvoke.Kernel32.dll</HintPath>
+      <HintPath>..\packages\PInvoke.Kernel32.0.3.152\lib\net40\PInvoke.Kernel32.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PInvoke.NCrypt">
-      <HintPath>..\packages\PInvoke.NCrypt.0.3.90\lib\net40\PInvoke.NCrypt.dll</HintPath>
+      <HintPath>..\packages\PInvoke.NCrypt.0.3.152\lib\net40\PInvoke.NCrypt.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PInvoke.Windows.Core">
-      <HintPath>..\packages\PInvoke.Windows.Core.0.3.90\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\PInvoke.Windows.Core.dll</HintPath>
+      <HintPath>..\packages\PInvoke.Windows.Core.0.3.152\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\PInvoke.Windows.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SharpYaml">
