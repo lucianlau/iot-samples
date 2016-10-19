@@ -7,6 +7,15 @@ This repository includes samples &amp; components that can be incorporated and u
 * [AzureFunctions](AzureFunctions/README.md) - Azure Function examples for interacting with IoT.
 * [Field Gateway](FieldGateway/README.md) - IoT examples that leverage the Azure Field Gateway SDK. 
 
+## End to End solutions
+Though the array of possible solutions around IoT Hub is nearly infinite, the following list includes a few solid E2E solutions that will help you explore not only IoT Hub capabilities, but also an array of other Azure compatiblities. 
+
+* Simulator Device |> Protocol Gateway |> IoT Hub |> Azure Stream Analytics
+* Simulator Device |> IoT Hub |> Azure Stream Analytics |> (Blob Storage, PowerBI)
+* Simulator Device |> IoT Hub |> Event Hub Reader Applicaiton (run business logic, respond with cloud2device message) |> IoT Hub |> Simulator Device 
+* Simulator Device |> Field Gateway (batch & compress) |> IoT Hub |> Azure Function (decompress & shred) |> Event Hub |> Azure Stream Analytics (flatten data) |> PowerBI 
+* Simulator Device (RaspberryPi) |> Field Gateway (RaspberryPi)(batch & compress) |> IoT Hub |> Logic App |> Iot Hub (cloud2device) |> Field Gateway(RaspberryPi) |> Receiving Device (RaspberryPi)
+
 ## Contributing
 Please see the [Contributing Guidelines](CONTRIBUTING.md). 
 
