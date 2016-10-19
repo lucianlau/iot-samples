@@ -6,7 +6,5 @@ This folder includes example code for leveraging Azure Functions to decompress a
 * [F#](/AzureFunctions/fsharp)
 * [NodeJS](/AzureFunctions/nodejs)
 
-\* [WIP] - work in progress.
-
 ## License
 This project is licensed under the [MIT License](/LICENSE.txt)
