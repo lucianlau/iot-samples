@@ -13,7 +13,6 @@ In the rare cases, where one has built a custom own ingestion service it is gene
 Specific to Azure, aggregated data is sent over to Iot Hub or Event hub. Then you have two options:
 
 
-
 1. Use Azure Stream Analytics Cross Apply function to break the input message into multiple data points. You can find more details [here](http://https://msdn.microsoft.com/en-us/library/azure/dn706229.aspx "Azure Stream Analytics Cross Apply").
 2. Build a custom service that reads data from an Iot Hub/Event hub and then parses the collection. 
 
@@ -29,7 +28,7 @@ This parser can be deployed as a Nodejs Azure function, which is an Event hub tr
 
 > Note: You can use it to deploy an IoT hub trigger as well. Just use the Event Hub end point (found in the Overview blade of IoT Hub) and provide it as an Event hub input while creating Azure functions.
 
-![](https://github.com/Microsoft/iot-samples/tree/develop/CollectionParsing/functionscollparser.png)
+![](functionscollparser.png)
 
 Once you had created the function you can add the code from [**index.js**](https://github.com/Microsoft/iot-samples/blob/develop/CollectionParsing/AzureFunctions/NodejsIotHubTrigger/index.js "index.js") file. Please refer to the Integrate tab to add the inputs and outputs, you will need to accordingly modify the input & output names in the code.
 
