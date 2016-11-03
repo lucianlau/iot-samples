@@ -3,35 +3,35 @@
     
     {
       "module name": "receiver",
-      "module path": "bin\\\\nodejs_binding_hl.dll",
+      "module path": "bin//libnodejs_binding_hl.so",
       "args": {
-        "main_path": "js\\\\receiver.js",
+        "main_path": "js//receiver.js",
         "args": {
-          "port" : "8080"
+          "port" : 8080  
         }
       }
     },
     {
       "module name": "batcher",
-      "module path": "bin\\\\nodejs_binding_hl.dll",
+      "module path": "bin//libnodejs_binding_hl.so",
       "args": {
-        "main_path": "js\\\\batcher.js",
+        "main_path": "js//batcher.js",
         "args": null
       }
     },
     {
       "module name": "compressor",
-      "module path": "bin\\\\nodejs_binding_hl.dll",
+      "module path": "bin//libnodejs_binding_hl.so",
       "args": {
-        "main_path": "js\\\\compressor.js",
+        "main_path": "js//compressor.js",
         "args": null
       }
     },
     {
       "module name": "iothub_writer",
-      "module path": "bin\\\\nodejs_binding_hl.dll",
+      "module path": "bin//libnodejs_binding_hl.so",
       "args": {
-        "main_path": "js\\\\iothub.js",
+        "main_path": "js//iothub.js",
         "args": {
           "connection_string": "HostName=iot-demo-hub.azure-devices.net;DeviceId=DeviceId;SharedAccessKey=sDOUd5P+zqHZUqh/1zfsN6M9FWGmQ1K2BLL2Wl6wNBY="
         }
@@ -39,7 +39,7 @@
     },
     {
       "module name": "Logger",
-      "module path": "bin\\\\logger_hl.dll",
+      "module path": "bin//liblogger_hl.so",
       "args": {
         "filename": "gateway.log.json"
       }

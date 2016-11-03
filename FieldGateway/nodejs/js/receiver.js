@@ -1,3 +1,6 @@
+//npm install express
+//npm install body-parser
+
 'use strict';
 var express = require('express');
 var bodyParser = require('body-parser')
@@ -6,12 +9,13 @@ var bodyParser = require('body-parser')
 module.exports = {
     messageBus: null,
     configuration: null,
+    server: null,
     devices: {},
 
     create: function (messageBus, configuration) {
         this.messageBus = messageBus;
         this.configuration = configuration;
-        
+
         var app = express();
         app.use(bodyParser.json())
 
@@ -29,6 +33,8 @@ module.exports = {
             var deviceName = req.body.deviceName
             var deviceType = req.body.deviceType
             var payload = JSON.stringify(req.body.data)
+
+            console.log("Received data from device.");
 
             // publish message to gateway bus
             messageBus.publish({
@@ -61,7 +67,7 @@ module.exports = {
         var port = this.configuration.port
 
         // Start
-        app.listen(port, startup(port));
+        this.server = app.listen(port, startup(port));
 
         return true;
     },
@@ -70,6 +76,11 @@ module.exports = {
     },
 
     destroy: function() {
+        console.log("Attempting to shutdown server gracefully.");
+        this.server.close(function() {
+            console.log("Closed out remaining connections.");
+        });
+        
         console.log('receiver.destroy');
     }
 };

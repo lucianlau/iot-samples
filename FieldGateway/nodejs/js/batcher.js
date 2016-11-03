@@ -1,5 +1,5 @@
 'use strict';
-const BATCH_SIZE = 10
+const BATCH_SIZE = 2
 const SEPERATOR = '|'
 
 module.exports = {
@@ -54,7 +54,9 @@ module.exports = {
     },
 
     destroy: function () {
-        messageBuffers.length = 0;
+        if(this.messageBuffers){
+            this.messageBuffers.length = 0;
+        }
         console.log('batcher.destroy');
     }
 };
