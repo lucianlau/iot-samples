@@ -1,10 +1,10 @@
 # iot-samples
-This repository includes samples &amp; components that can be incorporated and used in PoCs of IoT solutions for Azure.  The primary aim of this body of work is to encode community learnings and industry agnostic, best practices around IoT in a friendly quick-start context.  Examples have been organized roughly by SDK or functionality, further by language, and are subject to change/reorganization as new content is added.  
+This repository includes samples &amp; components that can be incorporated and used in PoCs of IoT solutions for Azure.  The primary aim of this body of work is to encode community learnings and industry agnostic best practices around IoT in a friendly quick-start context.  Examples have been organized roughly by SDK or functionality, further by language, and are subject to change/reorganization as new content is added.  
 
 ## General Topics
-* [Device Management](/DeviceManagement/README.md) - IoT examples for Device Managment.
+* [Device Management](/DeviceManagement/README.md) - IoT examples for Device Managment including device to cloud messaging.
 * [Collection Parsing](/CollectionParsing/README.md) - IoT examples for processing collections of data.
-* [AzureFunctions](AzureFunctions/README.md) - Azure Function examples for interacting with IoT.
+* [Decompression & Shreding](DecompressShred/README.md) - Azure Function examples for decompressing and shredding IoT Hub messages.
 * [Field Gateway](FieldGateway/README.md) - IoT examples that leverage the Azure Field Gateway SDK. 
 
 ## End to End solutions

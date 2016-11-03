@@ -9,14 +9,17 @@ open FSharp.Configuration
 open Microsoft.Azure.Devices
 open Microsoft.Azure.Devices.Common.Exceptions
 
-type Config = YamlConfig<FilePath="../config/config.yaml", ReadOnly=true>
+type Config = YamlConfig<FilePath="../config/config.yaml">
 
 module Main = 
     
     [<EntryPoint>]
     let main argv = 
         let config = Config()
-        config.Load("../../../config/config.yaml")
+        let configFilePath = "../../../config/config.yaml"
+
+        config.Load(configFilePath)
+
         let connectionString = config.AzureIoTHubConfig.ConnectionString
         let deviceId = config.DeviceConfigs.First().DeviceId
     
@@ -29,15 +32,32 @@ module Main =
     
         let getDevice deviceId =  
             registryManager.GetDeviceAsync(deviceId)
+        
+        let writeDeviceKey (device : Device) = 
+            config.DeviceConfigs
+            |> Seq.iter (fun dc -> 
+                    if String.Compare(dc.DeviceId, device.Id) = 0 then
+                        dc.Key <- device.Authentication.SymmetricKey.PrimaryKey
+                )
+            config.Save(configFilePath)
+            device
      
         try 
-            addDevice deviceId |> Async.AwaitTask |> Async.RunSynchronously |> printDeviceKey
+            addDevice deviceId 
+            |> Async.AwaitTask 
+            |> Async.RunSynchronously 
+            |> writeDeviceKey
+            |> printDeviceKey
         with 
         | :? System.AggregateException as e ->
             e.InnerExceptions 
             |> Seq.iter (fun ex -> 
                 if ex :? DeviceAlreadyExistsException then 
-                    getDevice deviceId |> Async.AwaitTask |> Async.RunSynchronously |> printDeviceKey
+                    getDevice deviceId 
+                    |> Async.AwaitTask 
+                    |> Async.RunSynchronously 
+                    |> writeDeviceKey
+                    |> printDeviceKey
                 )
     
     

@@ -93,36 +93,44 @@ module Main =
                 let compressedData = compress data
                 let message = new Message(Encoding.UTF8.GetBytes(compressedData))
                 deviceClient.SendEventAsync(message) 
-                        |> Async.AwaitIAsyncResult 
-                        |> Async.Ignore 
+                        |> Async.AwaitTask 
                         |> ignore
                 printfn "%O > Sending message %s" (DateTime.Now.ToString()) (decompress compressedData)
-                Thread.Sleep 5000
-            }
+            
+            }            
 
-        let rec dataReceiveTask (deviceClient : DeviceClient) = 
-            async {
-                    let! message = deviceClient.ReceiveAsync() |> Async.AwaitTask
+        let dataReceiveTask (deviceClient : DeviceClient) = 
+            let rec task (client : DeviceClient) = async {
+                    let! message = client.ReceiveAsync() |> Async.AwaitTask
+                    Console.ForegroundColor <- ConsoleColor.Yellow 
                     printfn "Cloud to device message received: %s" (message.GetBytes() |> Encoding.ASCII.GetString)
-                    return! (dataReceiveTask deviceClient)
+                    Console.ResetColor() 
+                    return! (task client)
                 }
+            task deviceClient
             
 
         let nycSites = Array.init 10 (fun index -> getRandomGeoCoordinate index 40.7128 74.0059 (20000.))
-        
 
+        
+        
+        // Start Cloud to Device Reader
         dataReceiveTask deviceClient |> Async.Start
-//
-//        let dataStream = 
-//            Seq.initInfinite ( fun x -> 
-//                String.concat "|" (nycSites |> Array.mapi (fun idx site -> windSpeedMessage site idx))
-//            )
-//            |> Seq.iter (fun x -> 
-//                dataSendTask x |> Async.RunSynchronously)
-             
-       
+
+        let batchDataStreamTasks = 
+            Seq.initInfinite ( fun x -> 
+                String.concat "|" (nycSites |> Array.mapi (fun idx site -> windSpeedMessage site idx)
+                )
+            )
+
+        batchDataStreamTasks
+        |> Seq.iter (fun x -> 
+            dataSendTask x 
+            |> Async.RunSynchronously
+            Async.Sleep 10000 |> Async.RunSynchronously)
+        
     
-        printfn "%A" argv
+        Console.ReadLine() |> ignore
         0 // return an integer exit code
     
 
