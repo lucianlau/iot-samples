@@ -8,7 +8,8 @@ underlying gateway application.
 # Supported Languages
 * [C# - [WIP]](/Gateway/csharp/README.md)
 * [F# - [WIP]](/Gateway/fsharp/README.md)
-* [NodeJS](/Gateway/nodejs/README.md)
+* [NodeJS/Windows](/Gateway/nodejs/Windows/README.md)
+* [NodeJS/RaspberryPi](/Gateway/nodejs/RaspberryPi/README.md)
 
 \* [WIP] - work in progress.
 
