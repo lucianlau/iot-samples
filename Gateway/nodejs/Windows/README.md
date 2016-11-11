@@ -1,4 +1,4 @@
-# iot-samples/FieldGateway/NodeJS
+# iot-samples/Gateway/NodeJS/Windows
 This folder includes Azure IoT Gateway example projects for Windows deployments of a NodeJS Gateway. The 
 included demo [device simulator](/Gateway/nodejs/device_simulator/simulator.js) and sample Gateway 
 implement message batching and compression which can be used in concert with the [Decompression and Shredding Azure Function](/DecompressShred)
