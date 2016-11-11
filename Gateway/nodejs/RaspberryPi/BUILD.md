@@ -66,9 +66,9 @@ The following notes walk you thorugh building a base Raspbian image for explorin
 	- `export NODE_LIB="/home/pi/code/azure-iot-gateway-sdk/build_nodejs/dist/lib"`
 	- `export NODE_INCLUDE="/home/pi/code/azure-iot-gateway-sdk/build_nodejs/dist/inc"`
 	- `export IOTHUB_CONNECTION_STRING="HostName={hostname}.azure-devices.net;SharedAccessKeyName={keyname};SharedAccessKey={key}"`
-	- `export IOTHUB_EVENTHUB_CONNECTION_STRING="Endpoint=sb://{iot-eventhub-name}.servicebus.windows.net/;SharedAccessKeyName={keyname};SharedAccessKey=- {key}"`
+	- `export IOTHUB_EVENTHUB_CONNECTION_STRING="Endpoint=sb://{iot-eventhub-name}.servicebus.windows.net/;SharedAccessKeyName={keyname};SharedAccessKey={key}"`
 	- `export IOTHUB_EVENTHUB_CONSUMER_GROUP="\$Default"`
 	- `export IOTHUB_PARTITION_COUNT=4`
 * Build Field Gateway with Nodejs Bindings 
-	- `./build.sh --enable-nodejs-binding`
+	- `./build.sh --enable-nodejs-binding --skip-unittests --skip-e2e-tests`
 * Reboot RaspberryPi

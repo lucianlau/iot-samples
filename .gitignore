@@ -12,7 +12,6 @@
 *.exe.mdb
 
 # Build results
-
 [Dd]ebug/
 [Rr]elease/
 x64/
@@ -194,6 +193,9 @@ docs/content/license.md
 docs/content/release-notes.md
 .fake
 docs/tools/FSharp.Formatting.svclog
+
+# NPM Modules
+node_modules
 
 # ===================================================
 # Exclude non-default Configuration files
