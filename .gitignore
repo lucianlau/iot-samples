@@ -20,6 +20,10 @@ build/
 [Bb]in/
 [Oo]bj/
 
+# Include Field Gateway Sample Binaries
+!FieldGateway/nodejs/RaspberryPi/bin
+!FieldGateway/nodejs/Windows/bin
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*

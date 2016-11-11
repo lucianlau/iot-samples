@@ -1,1 +1,0 @@
-To Start Simulator Device Run -> `node simulator.js`
