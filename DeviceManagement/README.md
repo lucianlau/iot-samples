@@ -6,7 +6,7 @@ directory root, while more complicated simulations will have self contained solu
 
 # Language Examples
 * [C#](/DeviceManagement/csharp/README.md)
-* [F# - [WIP]](/DeviceManagement/fsharp/README.md)
+* [F#](/DeviceManagement/fsharp/README.md)
 * [Nodejs - [WIP]](/DeviceManagement/nodejs/README.md)
 
 \* [WIP] - work in progress.

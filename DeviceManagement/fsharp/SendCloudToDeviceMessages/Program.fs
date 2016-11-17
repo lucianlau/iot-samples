@@ -60,17 +60,13 @@ let main argv =
                 return! task ()
             }
         task ()
-
-//    Console.CancelKeyPress.Add(fun (e) ->
-//        e.Cancel <- true
-//        cts.Cancel()
-//        Console.WriteLine("Exiting..."))
-            
     
     [sendMessageToDevice serviceClient deviceId cts; receiveFeedbackFromDevice serviceClient cts.Token; receiveFileNotification cts.Token]
     |> Async.Parallel
     |> Async.RunSynchronously
     |> ignore
+
+    Console.ReadLine() |> ignore
 
     0 // return an integer exit code
 
