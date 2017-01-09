@@ -18,13 +18,13 @@ module.exports = {
         zlib.gzip(data, function(err, compressed){
             if(!err){ 
                 // add message data.
-                var target = Buffer.alloc(compressed.length + 4)
-                compressed.copy(target, 4, 0, compressed.length)
+                var target = Buffer.alloc(compressed.length + 4);
+                compressed.copy(target, 4, 0, compressed.length);
 
                 // add header data
-                var compressedLength = compressed.length.toString()
+                var compressedLength = compressed.length.toString();
                 var compLen = Buffer.from(compressedLength);
-                compLen.copy(target, 0, 0, 4)
+                compLen.copy(target, 0, 0, 4);
 
                 // send message
                 message.content = new Uint8Array(Buffer.from(target.toString('base64')));
