@@ -7,8 +7,8 @@ using System.IO.Compression;
 using Microsoft.ServiceBus.Messaging;
 using System.Runtime.Serialization;
 
-public static string eventHubName = "demo";
-public static string eventHubConnectionString = "Endpoint=sb://postshred.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=UorbroZ5lTebF6IX7pfVfwSRZPdb9cpAlyFk5lNCcgg=";
+public static string eventHubName = "<event-hub-name>";
+public static string eventHubConnectionString = "<connection-string>";
 
 public static void SendToEventHub(EventHubClient client, string eventData)
 {
