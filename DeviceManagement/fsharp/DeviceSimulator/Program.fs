@@ -20,10 +20,8 @@ type telemetryDataPoint = {
     location : GeoCoordinate 
     deviceId : string 
     windSpeed : float 
+    obsTime : DateTime
     }
-
-[<Measure>]
-type meters 
 
 module Main = 
     
@@ -39,12 +37,14 @@ module Main =
     
         let avgWindSpeed = 10.
         let rand = new Random()
-    
+
         let windSpeedMessage location index = 
+                
                 let telemetryReading = { 
                     deviceId = sprintf "%s%i" deviceId index
                     windSpeed = (avgWindSpeed + rand.NextDouble() * 4. - 2.) 
                     location = location
+                    obsTime = DateTime.UtcNow
                     }
                 let json = JsonConvert.SerializeObject(telemetryReading)
                 json
@@ -58,7 +58,8 @@ module Main =
             let t = 2. * Math.PI * v
             let x = (w * Math.Cos(t)) / Math.Cos(lat)
             let y = w * Math.Sin(t)
-            GeoCoordinate(y+lat, x+long)         
+            GeoCoordinate(y+lat, x+long) 
+                   
            
         //http://madskristensen.net/post/Compress-and-decompress-strings-in-C
 
@@ -110,12 +111,12 @@ module Main =
             task deviceClient
             
 
-        let nycSites = Array.init 10 (fun index -> getRandomGeoCoordinate index 40.7128 74.0059 (20000.))
+        let nycSites = Array.init 10 (fun index -> getRandomGeoCoordinate index 47.643417 -122.126083 (20000.))
 
         
         
         // Start Cloud to Device Reader
-        dataReceiveTask deviceClient |> Async.Start
+        //dataReceiveTask deviceClient |> Async.Start
 
         let batchDataStreamTasks = 
             Seq.initInfinite ( fun x -> 
