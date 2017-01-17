@@ -1,5 +1,5 @@
 AzureIoTHubConfig:
-  Hostname: 
+  IoTHubUri: 
   IotHubStorageUri:
   IoTHubStorageContainer: 
   IotHubD2CEndpoint: messages/events
