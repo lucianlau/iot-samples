@@ -17,7 +17,7 @@ module Main =
     [<EntryPoint>]
     let main argv = 
         let config = Config()
-        config.Load("../../config/config.yaml")
+        config.Load("../../../config/config.yaml")
         let connectionString = config.AzureIoTHubConfig.ConnectionString
         let iotHubD2cEndpoint = config.AzureIoTHubConfig.IotHubD2CEndpoint
         
