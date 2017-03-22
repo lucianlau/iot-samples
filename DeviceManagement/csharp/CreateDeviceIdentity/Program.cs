@@ -46,18 +46,28 @@ namespace Azure.IoTHub.Examples.CSharp.CreateDeviceIdentity
         {
             const string configFilePath = @"../../../config/config.yaml";
             var config = configFilePath.GetIoTConfiguration();
-            var testDevice = config.DeviceConfigs.First();
+            var testDevices = config.DeviceConfigs;
             var azureConfig = config.AzureIoTHubConfig;
 
+            
             _registryManager = RegistryManager.CreateFromConnectionString(azureConfig.ConnectionString);
-            var task = AddDeviceAsync(testDevice);
-            task.Wait();
 
-            testDevice.Key = task.Result;
+            foreach (var testDevice in testDevices)
+            {
+                var task = AddDeviceAsync(testDevice);
+                task.Wait();
 
-            Console.WriteLine(configFilePath.UpdateIoTConfiguration(config).Item1
-                ? $"DeviceId: {testDevice.DeviceId} has DeviceKey: {testDevice.Key} \r\nConfig file: {configFilePath} has been updated accordingly."
-                : $"Error writing DeviceKey: {testDevice.Key} for DeviceId: {testDevice.DeviceId} to config file: {configFilePath} ");
+                testDevice.Key = task.Result;
+            }
+            if (configFilePath.UpdateIoTConfiguration(config).Item1)
+            {
+                foreach (var testDevice in testDevices)
+                {
+                    Console.WriteLine(
+                        $"DeviceId: {testDevice.DeviceId} has DeviceKey: {testDevice.Key} \r\nConfig file: {configFilePath} has been updated accordingly.");
+                }
+            }
+            
 
             Console.ReadLine();
         }

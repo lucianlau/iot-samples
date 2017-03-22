@@ -220,58 +220,69 @@ namespace DeviceSimulator
         public static void Main(string[] args)
         {
             var config = @"../../../config/config.yaml".GetIoTConfiguration();
-            var testDevice = config.DeviceConfigs.First();
+            var testDevices = config.DeviceConfigs;
             var azureConfig = config.AzureIoTHubConfig;
 
-            Console.WriteLine("Simulated device");
-            var deviceClient = DeviceClient.Create(
-                    azureConfig.Hostname, 
+            var receiveTasks = new List<Task>();
+            var sendTasks = new List<Task>();
+            foreach (var testDevice in testDevices)
+            {
+
+
+                Console.WriteLine("Simulated device");
+                var deviceClient = DeviceClient.Create(
+                    azureConfig.Hostname,
                     new DeviceAuthenticationWithRegistrySymmetricKey(testDevice.DeviceId, testDevice.Key));
 
-            var cts = new CancellationTokenSource();
+                var cts = new CancellationTokenSource();
 
-            // register cancellation request event.
-            Console.CancelKeyPress += (s, e) =>
-            {
-                e.Cancel = true;
-                cts.Cancel();
-                Console.WriteLine("Exiting ...");
-            };
-
-
-            /*  
-             *  Data Generator Functions
-             *  Select a message type by uncommenting an assignment below
-            */
-            // var dataGenerator = GetFlatSampleDeviceData;
-            // var dataGenerator = GetCSVSampleDeviceData;
-            // var dataGenerator = GetJSONObjectGraphSampleDeviceData;
+                // register cancellation request event.
+                Console.CancelKeyPress += (s, e) =>
+                {
+                    e.Cancel = true;
+                    cts.Cancel();
+                    Console.WriteLine("Exiting ...");
+                };
 
 
-
-            /* 
-             * kick off simple cloud data send.
-             */
-            //var sendTask = SendDeviceToCloudMessagesAsync(deviceClient, testDevice.DeviceId, dataGenerator, cts.Token);
+                /*  
+                 *  Data Generator Functions
+                 *  Select a message type by uncommenting an assignment below
+                */
+                // var dataGenerator = GetFlatSampleDeviceData;
+                // var dataGenerator = GetCSVSampleDeviceData;
+                // var dataGenerator = GetJSONObjectGraphSampleDeviceData;
 
 
 
-            /* 
-             * run batched & compressed data generator
-             */
-            var sendTask = Task.Run(() =>
-                                GetAggregateJSONDataStream(testDevice.DeviceId)
-                                    .Compress()
-                                    .SendDeviceToCloudMessageAsync(deviceClient), cts.Token);
+                /* 
+                 * kick off simple cloud data send.
+                 */
+                //var sendTask = SendDeviceToCloudMessagesAsync(deviceClient, testDevice.DeviceId, dataGenerator, cts.Token);
 
 
 
-            /* 
-             * kick off could data receive
-             */
-            var receiveTask = ReceiveC2DAsync(deviceClient, azureConfig.IoTHubStorageContainer, cts.Token);
+                /* 
+                 * run batched & compressed data generator
+                 */
+                sendTasks.Add(Task.Run(() =>
+                    GetAggregateJSONDataStream(testDevice.DeviceId)
+                        .Compress()
+                        .SendDeviceToCloudMessageAsync(deviceClient), cts.Token)
 
-            Task.WaitAny(sendTask, receiveTask);
+                );
+
+                /* 
+                 * kick off could data receive
+                 */
+                
+                receiveTasks.Add(ReceiveC2DAsync(deviceClient, azureConfig.IoTHubStorageContainer, cts.Token));
+            }
+            var list = new List<Task>();
+            list.AddRange(sendTasks);
+            list.AddRange(receiveTasks);
+            Task.WaitAll(list.ToArray());
+
 
             Console.ReadLine();
         }
