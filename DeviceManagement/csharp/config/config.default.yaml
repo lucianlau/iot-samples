@@ -1,8 +1,8 @@
 AzureIoTHubConfig:
   IoTHubUri: 
-  IotHubStorageUri:
+  IoTHubStorageUri:
   IoTHubStorageContainer: 
-  IotHubD2CEndpoint: messages/events
+  IoTHubD2CEndpoint: messages/events
   ConnectionString: 
 DeviceConfigs:
 - Nickname: My Test Device
